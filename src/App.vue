@@ -1,8 +1,17 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/">Esileht</router-link> |
+      <router-link to="/account">Minu konto</router-link> |
+      <router-link to="/addEvent">Ürituse lisamine</router-link> |
+      <router-link to="/admin">Admin vaade</router-link> |
+      <router-link to="/allEvents">Sündmused</router-link> |
+      <router-link to="/event">Sündmus X</router-link> |
+      <router-link to="/logIn">Logi sisse/Loo konto</router-link> |
+      <router-link to="/organizer">Korraldajale</router-link> |
+      <router-link to="/register">Registreerumine üritusele</router-link> |
+      <router-link to="/volunteer">Vabatahtlikule</router-link> |
+
     </nav>
     <router-view/>
   </div>
@@ -29,4 +38,14 @@ nav a {
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+body {
+  background-image: url('../src/assets/picture_volunteers.jpg');
+  background-attachment: fixed;
+  background-size: cover;
+}
 </style>
+<script>export default {
+  components: {}
+}
+</script>

@@ -1,25 +1,70 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import AccountView from "@/views/AccountView";
+import AddEventView from "@/views/AddEventView";
+import AdminView from "@/views/AdminView";
+import AllEventsView from "@/views/AllEventsView";
+import EventView from "@/views/EventView";
+import LogInView from "@/views/LogInView";
+import organizerView from "@/views/OrganizerView";
+import RegisterView from "@/views/RegisterToEventView";
+import VolunteerView from "@/views/VolunteerView";
+import RegisterToEventView from "@/views/RegisterToEventView";
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'homeRoute',
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: function () {
-      return import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-    }
-  }
+    path: '/account',
+    name: 'accountRoute',
+    component: AccountView
+  },
+  {
+    path: '/addEvent',
+    name: 'addEventRoute',
+    component: AddEventView
+  },
+  {
+    path: '/admin',
+    name: 'adminRoute',
+    component: AdminView
+  },
+  {
+    path: '/allEvents',
+    name: 'allEventsRoute',
+    component: AllEventsView
+  },
+  {
+    path: '/event',
+    name: 'eventRoute',
+    component: EventView
+  },
+  {
+    path: '/logIn',
+    name: 'logInRoute',
+    component: LogInView
+  },
+  {
+    path: '/organizer',
+    name: 'organizerRoute',
+    component: organizerView
+  },
+  {
+    path: '/registerToEvent',
+    name: 'registerToEventRoute',
+    component: RegisterToEventView
+  },
+  {
+    path: '/volunteer',
+    name: 'volunteerRoute',
+    component: VolunteerView
+  },
 ]
 
 const router = new VueRouter({
