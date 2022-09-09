@@ -7,10 +7,9 @@ import AdminView from "@/views/AdminView";
 import AllEventsView from "@/views/AllEventsView";
 import EventView from "@/views/EventView";
 import LogInView from "@/views/LogInView";
-import organizerView from "@/views/OrganizerView";
-import RegisterView from "@/views/RegisterToEventView";
 import VolunteerView from "@/views/VolunteerView";
 import RegisterToEventView from "@/views/RegisterToEventView";
+import OrganizerView from "@/views/OrganizerView";
 
 Vue.use(VueRouter)
 
@@ -53,7 +52,7 @@ const routes = [
   {
     path: '/organizer',
     name: 'organizerRoute',
-    component: organizerView
+    component: OrganizerView
   },
   {
     path: '/registerToEvent',
@@ -64,7 +63,7 @@ const routes = [
     path: '/volunteer',
     name: 'volunteerRoute',
     component: VolunteerView
-  },
+  }
 ]
 
 const router = new VueRouter({

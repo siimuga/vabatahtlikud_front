@@ -1,18 +1,30 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <button type="button" style="margin: 5px" class="btn-outline-primary" v-on:click="toLogInPage">Sisene</button>
+    <br>
+    <h2><span style="color: #2c3e50">Tule vabatahtlikuks!</span></h2>
+    <br>
+
+
+    <img alt="Vue logo" style="width: 300px; margin: 10px"  src="../assets/picture_volunteer.jpg" v-on:click="toAllEventsPage">
+    <a href="http://localhost:8081/organizer#/organizer"><img alt="Vue logo" style="width: 300px; margin: 10px"  src="../assets/picture_organizer.jpg"></a>
+
+<!--    <img alt="Vue logo" style="width: 300px; margin: 10px"  src="../assets/picture_events.jpg">-->
+<!--    <img alt="Vue logo" style="width: 300px; margin: 10px" src="../assets/picture_volunteer.jpg">-->
+<!--    <img alt="Vue logo" style="width: 300px; margin: 10px" src="../assets/picture_organizer.jpg">-->
+
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
 
 export default {
   name: 'HomeView',
-  components: {
-    HelloWorld
+
+  methods: {
+    toAllEventsPage: function () {
+      this.$router.push({name: 'allEventsRoute'})
+    },
   }
 }
 </script>
