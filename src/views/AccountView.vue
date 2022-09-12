@@ -120,6 +120,9 @@
 <script>
 export default {
   name: "AccountView",
+  props:{
+    userId
+  },
 
   data: function () {
     return {
