@@ -1,10 +1,12 @@
 <template>
   <div>
-    <
-    <button type="button" style="margin: 5px" class="btn-outline-primary" v-on:click="toLogInPage">Sisene</button>
-    <button type="button" style="margin: 5px" class="btn-outline-primary" v-on:click="toLogInPage">Loo konto</button>
+    <button type="button" style="margin: 5px" class=" btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
+    <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+    <br>
     <br>
     <h1><span style="color: #2c3e50">Tule vabatahtlikuks!</span></h1>
+    <br>
+    <br>
     <div class="container-xxl">
       <div class="row">
         <div class="col-md-4">

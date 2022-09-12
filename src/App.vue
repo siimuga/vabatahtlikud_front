@@ -40,7 +40,7 @@ nav a.router-link-exact-active {
 }
 
 body {
-  background-image: url('../src/assets/picture_volunteers.jpg');
+  background-image: url('assets/picture_volunteers.jpg');
   background-attachment: fixed;
   background-size: cover;
 }
