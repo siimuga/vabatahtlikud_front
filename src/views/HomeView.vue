@@ -1,16 +1,61 @@
 <template>
   <div>
-  <button type="button" style="margin: 5px" class="btn-outline-primary" v-on:click="toLogInPage">Sisene</button>
-  <button type="button" style="margin: 5px" class="btn-outline-primary" v-on:click="toLogInPage">Loo konto</button>
-  <br>
-  <h2><span style="color: #2c3e50">Tule vabatahtlikuks!</span></h2>
-  <br>
+    <button type="button" style="margin: 5px" class="btn-outline-primary" v-on:click="toLogInPage">Sisene</button>
+    <button type="button" style="margin: 5px" class="btn-outline-primary" v-on:click="toLogInPage">Loo konto</button>
+    <br>
+    <h2><span style="color: #2c3e50">Tule vabatahtlikuks!</span></h2>
+    <br>
 
-  <div>
-    <img alt="Vue logo" style="width: 300px; margin: 10px"  src="../assets/picture_events.jpg" v-on:click="toAllEventsPage">
-    <img alt="Vue logo" style="width: 300px; margin: 10px" src="../assets/picture_volunteer.jpg" v-on:click="toVolunteerPage">
-    <img alt="Vue logo" style="width: 300px; margin: 10px" src="../assets/picture_organizer.jpg" v-on:click="toOrganizerPage">
-  </div>
+    <div>
+
+      <div
+          class="bg-image hover-overlay ripple shadow-1-strong rounded"
+          data-mdb-ripple-color="light">
+        <img alt="Vue logo" style="width: 300px; margin: 10px" src="../assets/picture_events.jpg"
+             v-on:click="toAllEventsPage">
+      </div>
+
+      <img alt="Vue logo" style="width: 300px; margin: 10px" src="../assets/picture_volunteer.jpg"
+           v-on:click="toVolunteerPage">
+      <img alt="Vue logo" style="width: 300px; margin: 10px" src="../assets/picture_organizer.jpg"
+           v-on:click="toOrganizerPage">
+    </div>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="content"> <a href="#">
+            <div class="content-overlay"></div> <img class="content-image" src="https://i.imgur.com/7cNRozs.jpg">
+            <div class="content-details fadeIn-bottom">
+              <h3 class="content-title">Sündmused</h3>
+              <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
+            </div>
+          </a> </div>
+        </div>
+        <div class="col-md-4">
+          <div class="content"> <a href="#">
+            <div class="content-overlay"></div> <img class="content-image" src="https://i.imgur.com/CS59IJZ.jpg">
+            <div class="content-details fadeIn-bottom">
+              <h3 class="content-title">Vabatahtlikule</h3>
+              <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
+            </div>
+          </a> </div>
+        </div>
+        <div class="col-md-4">
+          <div class="content"> <a href="#">
+            <div class="content-overlay"></div> <img class="content-image" src="https://i.imgur.com/LITAKvq.jpg">
+            <div class="content-details fadeIn-bottom">
+              <h3 class="content-title">Korraldajale</h3>
+              <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
+            </div>
+          </a> </div>
+        </div>
+      </div>
+    </div>
+
+
+
   </div>
 </template>
 
@@ -20,7 +65,7 @@ export default {
   name: 'HomeView',
 
   data: function () {
-    return{
+    return {
       divToLogInPage: true
     }
   },

@@ -6,6 +6,7 @@ import VueAxios from "vue-axios";
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'jquery/src/jquery.js'
 import 'bootstrap/dist/js/bootstrap.min.js'
+import './assets/style.css'
 
 Vue.use(VueAxios,axios)
 
