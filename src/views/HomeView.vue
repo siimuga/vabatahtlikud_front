@@ -10,17 +10,17 @@
     <div class="container-xxl">
       <div class="row">
         <div class="col-md-4">
-          <div class="content"> <a href="#">
-            <div class="content-overlay"></div> <img class="content-image" src="../assets/picture_events.jpg" v-on:click="toAllEventsPage">
-            <div class="content-details fadeIn-bottom">
-              <h3 class="content-title">Sündmused</h3>
+          <div type="button" class="content" v-on:click="toAllEventsPage"> <a href="#">
+            <div  class="content-overlay"></div> <img type="button" class="content-image" src="../assets/picture_events.jpg">
+            <div  class="content-details fadeIn-bottom">
+              <h3 class="content-title" >Sündmused</h3>
               <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
             </div>
           </a> </div>
         </div>
         <div class="col-md-4">
-          <div class="content"> <a href="#">
-            <div class="content-overlay"></div> <img class="content-image" src="../assets/picture_volunteer.jpg" v-on:click="toVolunteerPage">
+          <div type="button" class="content" v-on:click="toVolunteerPage"> <a href="#">
+            <div class="content-overlay"></div> <img class="content-image" src="../assets/picture_volunteer.jpg">
             <div class="content-details fadeIn-bottom">
               <h3 class="content-title">Vabatahtlikule</h3>
               <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
@@ -28,8 +28,8 @@
           </a> </div>
         </div>
         <div class="col-md-4">
-          <div class="content"> <a href="#">
-            <div class="content-overlay"></div> <img class="content-image" src="../assets/picture_organizer.jpg" v-on:click="toOrganizerPage">
+          <div type="button" class="content" v-on:click="toOrganizerPage"> <a href="#">
+            <div class="content-overlay"></div> <img class="content-image" src="../assets/picture_organizer.jpg">
             <div class="content-details fadeIn-bottom">
               <h3 class="content-title">Korraldajale</h3>
               <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
@@ -48,7 +48,10 @@ export default {
 
   data: function () {
     return {
-      divToLogInPage: true
+      divToLogInPage: true,
+      divToAllEventsPage: true,
+      divToVolunteerPage: true,
+      divToOrganizerPage: true
     }
   },
 
