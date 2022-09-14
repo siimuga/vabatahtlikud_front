@@ -17,7 +17,9 @@
         </div>
       </div>
     </div>
-
+    <br>
+<div>Siia tuleb info korraldajale</div>
+    <br>
     <div id="demo" class="carousel slide" data-bs-ride="carousel">
 
       <div class="carousel-indicators">

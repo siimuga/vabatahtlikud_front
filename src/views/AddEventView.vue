@@ -10,7 +10,7 @@
           <h2><span style="color: #2c3e50">Ürituse lisamine</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Minu konto
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
           </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
           </button>
@@ -70,65 +70,13 @@
               </tbody>
             </table>
           </div>
-          <div class="col-sm">
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th scope="col">Täpsustav info</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>info</td>
-                <td>
-                  <button type="button" style="margin: 1px" class="btn btn-outline-dark" v-on:click="toAddTask">Lisa
-                  </button>
-                  <button type="button" style="margin: 1px" class="btn btn-danger" v-on:click="toDeleteTask">Kustuta
-                  </button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th scope="col">Tööülesanded</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>ülesanne</td>
-                <td>
-                  <button type="button" style="margin: 1px" class="btn btn-outline-dark" v-on:click="toAddTask">Lisa
-                  </button>
-                  <button type="button" style="margin: 1px" class="btn btn-danger" v-on:click="toDeleteTask">Kustuta
-                  </button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th scope="col">Lisa pilt</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td><ImageInput @pictureInputSuccess="getPictureDataFromFile"/></td>
-              <button type="button" style="margin: 1px" class="btn btn-outline-dark"
-                        v-on:click="sendImageDataToBackend">Lisa</button>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+
         </div>
       </div>
     </div>
     <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toSaveEventChanges">Muuda
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventNextPage">Edasi
       </button>
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toSaveEvent">Salvesta</button>
     </div>
   </div>
 </template>
@@ -156,31 +104,11 @@ export default {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
-    toLogInPage: function () {
-      this.$router.push({name: 'logInRoute'})
+    toAccountPage: function () {
+      this.$router.push({name: 'accountRoute'})
     },
-    toAddTask: function () {
-
-    },
-    toDeleteTask: function () {
-
-    },
-    toSaveEventChanges: function () {
-
-    },
-    toSaveEvent: function () {
-
-    },
-    getPictureDataFromFile: function (pictureDataBase64) {
-      this.pictureExport.data = pictureDataBase64
-    },
-    sendImageDataToBackend: function () {
-      this.$http.post("/event/picture", this.pictureExport
-      ).then(response => {
-        alert("Pilt edukalt lisatud!")
-      }).catch(error => {
-        alert("Viga pildi lisamisel!")
-      })
+    toAddEventNextPage: function () {
+      this.$router.push({name: 'addEventNextPageRoute'})
     },
   }
 }

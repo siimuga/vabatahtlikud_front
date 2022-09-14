@@ -7,7 +7,7 @@
           </button>
         </div>
         <div class="col-sm">
-          <h2><span style="color: #2c3e50">Admin konto</span></h2>
+          <h2><span style="color: #2c3e50">Admin</span></h2>
         </div>
         <div class="col-sm">
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja

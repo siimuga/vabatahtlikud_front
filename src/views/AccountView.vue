@@ -10,9 +10,9 @@
           <h2><span style="color: #2c3e50">Minu konto</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu üritused
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
           </button>
         </div>
       </div>
@@ -23,7 +23,6 @@
       <div class="container-xl">
         <div class="row">
           <div class="col-sm">
-            <h3><span style="color: #2c3e50">Profiil</span></h3>
             <table class="table">
               <tbody>
               <tr>
@@ -44,7 +43,7 @@
               </tr>
               <tr>
                 <th>Sugu</th>
-                <td><input type="text" placeholder="Sugu"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="M/N"> <!--v-model="example"--></td>
               </tr>
               <tr>
                 <th>Email</th>
@@ -60,65 +59,6 @@
               konto
             </button>
           </div>
-          <div class="col-sm">
-            <h3><span style="color: #2c3e50">Eesolevad üritused</span></h3>
-
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Ürituse nimi</th>
-                <th scope="col">Roll</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>sündmus</td>
-                <td>korraldaja</td>
-                <td>
-                  <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
-                    Muuda
-                  </button>
-                  <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Kustuta
-                  </button>
-                </td>
-
-              </tr>
-              <tr>
-                <th scope="row">2</th>
-                <td>sündmus</td>
-                <td>vabatahtlik</td>
-                <td>
-                  <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Tühista
-                    osalemine
-                  </button>
-                </td>
-              </tr>
-              </tbody>
-            </table>
-            <br>
-            <h3><span style="color: #2c3e50">Möödunud üritused</span></h3>
-            <table class="table table-hover">
-              <thead>
-              <tr>
-                <th scope="col"></th>
-                <th scope="col">Ürituse nimi</th>
-                <th scope="col">Roll</th>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <th scope="row">1</th>
-                <td>sündmus</td>
-                <td>korraldaja</td>
-              </tr>
-
-              </tbody>
-            </table>
-
-          </div>
-
         </div>
       </div>
     </div>
@@ -146,11 +86,8 @@ export default {
     toLogInPage: function () {
       this.$router.push({name: 'logInRoute'})
     },
-    toChangeEvent: function () {
-      this.$router.push({name: 'addEventRoute'})
-    },
-    toDeleteEvent: function () {
-      this.$router.push({name: 'homeRoute'})
+    toMyEventsPage: function () {
+      this.$router.push({name: 'myEventsRoute'})
     },
   }
 }

@@ -23,7 +23,7 @@
         <div class="col-sm-2"><a>
           <div class="content-overlay"></div>
           <img type="button" class="content-image" src="../assets/VolunteerView/volunteer-view1.jpg">
-        </a> </div>
+        </a></div>
       </div>
       <br>
       <div class="row">
@@ -39,8 +39,6 @@
           <img type="button" class="content-image" src="../assets/VolunteerView/volunteer-view3.jpg">
         </div>
       </div>
-
-
     </div>
   </div>
 </template>

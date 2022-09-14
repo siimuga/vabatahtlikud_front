@@ -10,6 +10,8 @@ import LogInView from "@/views/LogInView";
 import VolunteerView from "@/views/VolunteerView";
 import RegisterToEventView from "@/views/RegisterToEventView";
 import OrganizerView from "@/views/OrganizerView";
+import MyEventsView from "@/views/MyEventsView";
+import AddEventNextPageView from "@/views/AddEventNextPageView";
 
 Vue.use(VueRouter)
 
@@ -25,14 +27,19 @@ const routes = [
     component: AccountView
   },
   {
+    path: '/myEvents',
+    name: 'myEventsRoute',
+    component: MyEventsView
+  },
+  {
     path: '/addEvent',
     name: 'addEventRoute',
     component: AddEventView
   },
   {
-    path: '/admin',
-    name: 'adminRoute',
-    component: AdminView
+    path: '/addEventNextPage',
+    name: 'addEventNextPageRoute',
+    component: AddEventNextPageView
   },
   {
     path: '/allEvents',
@@ -63,6 +70,11 @@ const routes = [
     path: '/volunteer',
     name: 'volunteerRoute',
     component: VolunteerView
+  },
+  {
+    path: '/admin',
+    name: 'adminRoute',
+    component: AdminView
   }
 ]
 

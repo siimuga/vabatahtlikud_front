@@ -2,15 +2,18 @@
   <div id="app">
     <nav>
       <router-link to="/">Esileht</router-link> |
+      <router-link to="/logIn">Logi sisse/Loo konto</router-link> |
       <router-link to="/account">Minu konto</router-link> |
+      <router-link to="/myEvents">Minu üritused</router-link> |
       <router-link to="/addEvent">Ürituse lisamine</router-link> |
-      <router-link to="/admin">Admin</router-link> |
+      <router-link to="/addEventNextPage">Ürituse lisamine 2</router-link> |
+      <br>
       <router-link to="/allEvents">Sündmused</router-link> |
       <router-link to="/event">Sündmus X</router-link> |
-      <router-link to="/logIn">Logi sisse/Loo konto</router-link> |
+      <router-link to="/registerToEvent">Registreerumine üritusele</router-link> |
       <router-link to="/organizer">Korraldajale</router-link> |
-      <router-link to="/register">Registreerumine üritusele</router-link> |
       <router-link to="/volunteer">Vabatahtlikule</router-link> |
+      <router-link to="/admin">Admin</router-link> |
 
     </nav>
     <router-view/>
