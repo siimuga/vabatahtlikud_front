@@ -4,7 +4,7 @@
       <router-link to="/">Esileht</router-link> |
       <router-link to="/account">Minu konto</router-link> |
       <router-link to="/addEvent">Ürituse lisamine</router-link> |
-      <router-link to="/admin">Admin vaade</router-link> |
+      <router-link to="/admin">Admin</router-link> |
       <router-link to="/allEvents">Sündmused</router-link> |
       <router-link to="/event">Sündmus X</router-link> |
       <router-link to="/logIn">Logi sisse/Loo konto</router-link> |
@@ -40,7 +40,7 @@ nav a.router-link-exact-active {
 }
 
 body {
-  /*background-image: url('assets/picture_volunteers.jpg');*/
+  /*background-image: url("src/assets/style.css");*/
   background-attachment: fixed;
   background-size: auto;
 }
