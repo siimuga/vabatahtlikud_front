@@ -12,6 +12,8 @@ import RegisterToEventView from "@/views/RegisterToEventView";
 import OrganizerView from "@/views/OrganizerView";
 import MyEventsView from "@/views/MyEventsView";
 import AddEventNextPageView from "@/views/AddEventNextPageView";
+import UpdateEvent from "@/views/UpdateEvent";
+import UpdateEventNextPage from "@/views/UpdateEventNextPage";
 
 Vue.use(VueRouter)
 
@@ -40,6 +42,16 @@ const routes = [
     path: '/addEventNextPage',
     name: 'addEventNextPageRoute',
     component: AddEventNextPageView
+  },
+  {
+    path: '/updateEvent',
+    name: 'updateEventRoute',
+    component: UpdateEvent
+  },
+  {
+    path: '/updateEventNextPage',
+    name: 'updateEventPageRoute',
+    component: UpdateEventNextPage
   },
   {
     path: '/allEvents',

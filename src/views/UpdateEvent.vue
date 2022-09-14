@@ -7,12 +7,12 @@
           </button>
         </div>
         <div class="col-sm">
-          <h2><span style="color: #2c3e50">Sündmus X</span></h2>
+          <h2><span style="color: #2c3e50">Ürituse lisamine</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
           </button>
         </div>
       </div>
@@ -20,7 +20,6 @@
     <br>
     <br>
     <div>
-
       <div class="container-xl">
         <div class="row">
           <div class="col-sm">
@@ -75,41 +74,43 @@
         </div>
       </div>
     </div>
-
-
     <div class="col-sm">
-      <a href="#" class="btn btn-outline-secondary active" role="button" data-bs-toggle="button" aria-pressed="true">Ürituse veebilehele</a>
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toRegisterToEventPage">Registreeru vabatahtlikuks
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventNextPage">Edasi
       </button>
     </div>
   </div>
 </template>
 
 <script>
-export default {
-  name: "EventView",
+import ImageInput from "@/components/image/ImageInput";
 
+export default {
+  name: "AddEventView",
+  components: {ImageInput},
   data: function () {
     return {
       countyList: [],
       categoryList: [],
       languageList: [],
       selected: '',
+      pictureExport: {
+        data: String
+      },
+      pictureImport: {}
     }
   },
 
   methods: {
-    toLogInPage: function () {
-      this.$router.push({name: 'logInRoute'})
-    },
     toHomePage: function () {
-      this.$router.push({name: 'homePageRoute'})
+      this.$router.push({name: 'homeRoute'})
     },
-    toRegisterToEventPage: function () {
-      this.$router.push({name: 'registerToEventRoute'})
-    }
-  },
-
+    toAccountPage: function () {
+      this.$router.push({name: 'accountRoute'})
+    },
+    toAddEventNextPage: function () {
+      this.$router.push({name: 'addEventNextPageRoute'})
+    },
+  }
 }
 </script>
 

@@ -67,6 +67,10 @@
                   <option v-for="option in languageList" :value="option">{{ option }}</option>
                 </select>
               </tr>
+              <tr>
+                <th>Ürituse veebileht</th>
+                <td><input type="url" placeholder="Veebileht"> <!--v-model="example"--></td>
+              </tr>
               </tbody>
             </table>
           </div>

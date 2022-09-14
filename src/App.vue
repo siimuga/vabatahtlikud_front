@@ -7,6 +7,8 @@
       <router-link to="/myEvents">Minu üritused</router-link> |
       <router-link to="/addEvent">Ürituse lisamine</router-link> |
       <router-link to="/addEventNextPage">Ürituse lisamine 2</router-link> |
+      <router-link to="/updateEvent">Ürituse muutmine</router-link> |
+      <router-link to="/updateEventNextPage">Ürituse muutmine 2</router-link> |
       <br>
       <router-link to="/allEvents">Sündmused</router-link> |
       <router-link to="/event">Sündmus X</router-link> |

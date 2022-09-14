@@ -73,7 +73,7 @@
       </tr>
       </tbody>
     </table>
-    <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Registreeru
+    <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="registerToEvent">Registreeru
     </button>
   </div>
 </template>
@@ -89,6 +89,9 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
+    registerToEvent:function () {
+      
+    }
   }
 }
 </script>
