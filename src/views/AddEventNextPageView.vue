@@ -49,13 +49,12 @@
               </thead>
               <tbody>
               <tr>
-                <td>ülesanne</td>
-                <td>
-                  <button type="button" style="margin: 1px" class="btn btn-outline-dark" v-on:click="toAddTask">Lisa
+                <td>{{addTask}}</td>
+                <td><input type="text" placeholder="Ülesanne" :v-model="task.name"></td>
+                  <button type="button" style="margin: 1px" class="btn btn-outline-dark" v-on:click="addTask">Lisa
                   </button>
                   <button type="button" style="margin: 1px" class="btn btn-danger" v-on:click="toDeleteTask">Kustuta
                   </button>
-                </td>
               </tr>
               </tbody>
             </table>
@@ -89,16 +88,22 @@ import ImageInput from "@/components/image/ImageInput";
 export default {
   name: "AddEventView",
   components: {ImageInput},
+  props: {
+    eventId: 1
+  },
   data: function () {
     return {
       countyList: [],
       categoryList: [],
       languageList: [],
       selected: '',
+      addTask: '',
       pictureExport: {
         data: String
       },
-      pictureImport: {}
+      pictureImport: {},
+      task: {}
+
     }
   },
 
@@ -109,8 +114,13 @@ export default {
     toLogInPage: function () {
       this.$router.push({name: 'logInRoute'})
     },
-    toAddTask: function () {
-
+    addTask: function () {
+     // this.event.addTask = this.toAddTask()
+      this.$http.post("event/task", this.event)
+          .then(response => {
+            this.addTask = response.data
+            console.log(response.data)
+          })
     },
     toDeleteTask: function () {
 
@@ -130,6 +140,9 @@ export default {
         alert("Viga pildi lisamisel!")
       })
     },
+  },
+  mounted() {
+    this.addTask()
   }
 }
 </script>
