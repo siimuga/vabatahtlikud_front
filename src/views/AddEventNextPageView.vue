@@ -78,7 +78,7 @@
       </div>
     </div>
     <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toSaveEvent">Salvesta</button>
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Valmis</button>
     </div>
   </div>
 </template>
@@ -115,7 +115,8 @@ export default {
     toDeleteTask: function () {
 
     },
-    toSaveEvent: function () {
+    toHomePage: function () {
+      this.$router.push({name: 'homeRoute'})
 
     },
     getPictureDataFromFile: function (pictureDataBase64) {

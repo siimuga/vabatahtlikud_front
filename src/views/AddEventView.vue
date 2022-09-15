@@ -31,11 +31,11 @@
                 <td><input type="text" placeholder="Ürituse nimi"><!--v-model="example"--></td>
               </tr>
               <tr>
-                <th>Aeg</th>
+                <th>Kuupäev(ad)</th>
                 <div class="input-group input-daterange">
-                  <input type="date" class="form-control" value="2022-09-13">
-                  <div class="input-group-addon"> -</div>
-                  <input type="date" class="form-control" value="2023-09-13">
+                  <input type="date" class="form-control-sm" value="2022-09-13">
+                  <div class="input-group-addon">-</div>
+                  <input type="date" class="form-control-sm" value="2023-09-13">
                 </div>
               </tr>
               <tr>
@@ -79,7 +79,7 @@
       </div>
     </div>
     <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventNextPage">Edasi
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toSaveEvent">Salvesta
       </button>
     </div>
   </div>
@@ -111,7 +111,7 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    toAddEventNextPage: function () {
+    toSaveEvent: function () {
       this.$router.push({name: 'addEventNextPageRoute'})
     },
   }
