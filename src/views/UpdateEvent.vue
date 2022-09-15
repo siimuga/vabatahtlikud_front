@@ -7,7 +7,7 @@
           </button>
         </div>
         <div class="col-sm">
-          <h2><span style="color: #2c3e50">Ürituse lisamine</span></h2>
+          <h2><span style="color: #2c3e50">Ürituse muutmine</span></h2>
         </div>
         <div class="col-sm">
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventNextPage">Edasi
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toUpdateEventNextPage">Edasi
       </button>
     </div>
   </div>
@@ -107,8 +107,8 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    toAddEventNextPage: function () {
-      this.$router.push({name: 'addEventNextPageRoute'})
+    toUpdateEventNextPage: function () {
+      this.$router.push({name: 'updateEventNextPageRoute'})
     },
   }
 }

@@ -32,24 +32,24 @@
               </tr>
               <tr>
                 <th>Kuupäev(ad)</th>
-                <div class="input-group input-daterange">
-                  <input type="date" class="form-control-sm" value="2022-09-13">
-                  <div class="input-group-addon">-</div>
-                  <input type="date" class="form-control-sm" value="2023-09-13">
+                <div>
+                  <td class="input-group input-daterange"></td>
+                  <input type="date" class="form-control-sm" :value="Date.now()">
+                  <input type="date" class="form-control-sm" :value="Date.now()">
                 </div>
               </tr>
               <tr>
                 <th>Valdkond</th>
-                <select v-model="selected">
+                <select v-model="selectedCategory">
                   <option disabled value="">Vali valdkond</option>
-                  <option v-for="option in categoryList" :value="option">{{ option }}</option>
+                  <option v-for="option in categoryList" :value="option">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
                 <th>Maakond</th>
-                <select v-model="selected">
+                <select v-model="selectedCounty">
                   <option disabled value="">Vali maakond</option>
-                  <option v-for="option in countyList" :value="option">{{ option }}</option>
+                  <option v-for="option in countyList" :value="option">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
@@ -62,9 +62,9 @@
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
-                <select v-model="selected">
+                <select v-model="selectedLanguage">
                   <option disabled value="">Vali keel</option>
-                  <option v-for="option in languageList" :value="option">{{ option }}</option>
+                  <option v-for="option in languageList">{{ option.name }}</option >
                 </select>
               </tr>
               <tr>
@@ -96,7 +96,11 @@ export default {
       countyList: [],
       categoryList: [],
       languageList: [],
-      selected: '',
+      selectedCategory: '',
+      selectedCounty: '',
+      selectedLanguage: '',
+      selectedStartDate: '',
+      selectedEndDate: '',
       pictureExport: {
         data: String
       },
@@ -105,6 +109,28 @@ export default {
   },
 
   methods: {
+    findAllCategorys: function () {
+      this.$http.get("event/category")
+          .then(response => {
+            this.categoryList=response.data
+            console.log(response.data)
+          })
+    },
+    findAllCountys: function () {
+      this.$http.get("event/county")
+          .then(response => {
+            this.countyList=response.data
+            console.log(response.data)
+          })
+    },
+    findAllLanguages: function () {
+      this.$http.get("event/language")
+          .then(response => {
+            this.languageList=response.data
+            console.log(response.data)
+          })
+    },
+
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
@@ -114,7 +140,13 @@ export default {
     toSaveEvent: function () {
       this.$router.push({name: 'addEventNextPageRoute'})
     },
-  }
+  },
+  mounted() {
+    this.findAllCategorys()
+    this.findAllCountys()
+    this.findAllLanguages()
+  },
+
 }
 </script>
 

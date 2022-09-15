@@ -12,7 +12,7 @@
         <div class="col-sm">
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu üritused
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventsPage">Lisa üritus
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventPage">Lisa üritus
           </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
           </button>
@@ -91,8 +91,8 @@ export default {
     toMyEventsPage: function () {
       this.$router.push({name: 'myEventsRoute'})
     },
-    toAddEventsPage: function () {
-      this.$router.push({name: 'addEventsRoute'})
+    toAddEventPage: function () {
+      this.$router.push({name: 'addEventRoute'})
     }
   }
 }

@@ -7,7 +7,7 @@
           </button>
         </div>
         <div class="col-sm">
-          <h2><span style="color: #2c3e50">Ürituse lisamine</span></h2>
+          <h2><span style="color: #2c3e50">Ürituse lisamine 2</span></h2>
         </div>
         <div class="col-sm">
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Minu konto

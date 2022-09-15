@@ -50,7 +50,7 @@ const routes = [
   },
   {
     path: '/updateEventNextPage',
-    name: 'updateEventPageRoute',
+    name: 'updateEventNextPageRoute',
     component: UpdateEventNextPage
   },
   {
