@@ -40,16 +40,16 @@
               </tr>
               <tr>
                 <th>Valdkond</th>
-                <select v-model="selected">
+                <select v-model="selectedCategory">
                   <option disabled value="">Vali valdkond</option>
-                  <option v-for="option in categoryList" :value="option">{{ option }}</option>
+                  <option v-for="option in categoryList" :value="option">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
                 <th>Maakond</th>
-                <select v-model="selected">
+                <select v-model="selectedCounty">
                   <option disabled value="">Vali maakond</option>
-                  <option v-for="option in countyList" :value="option">{{ option }}</option>
+                  <option v-for="option in countyList" :value="option">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
@@ -62,9 +62,9 @@
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
-                <select v-model="selected">
+                <select v-model="selectedLanguage">
                   <option disabled value="">Vali keel</option>
-                  <option v-for="option in languageList" :value="option">{{ option }}</option>
+                  <option v-for="option in languageList" :value="option">{{ option.name }}</option>
                 </select>
               </tr>
               </tbody>
@@ -92,6 +92,9 @@ export default {
       countyList: [],
       categoryList: [],
       languageList: [],
+      selectedCategory: '',
+      selectedCounty: '',
+      selectedLanguage: '',
       selected: '',
       pictureExport: {
         data: String
@@ -110,7 +113,12 @@ export default {
     toUpdateEventNextPage: function () {
       this.$router.push({name: 'updateEventNextPageRoute'})
     },
-  }
+  },
+  mounted() {
+    this.findAllCategorys()
+    this.findAllCountys()
+    this.findAllLanguages()
+  },
 }
 </script>
 

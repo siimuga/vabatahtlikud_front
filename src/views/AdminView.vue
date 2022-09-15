@@ -38,8 +38,8 @@
               Muuda
             </button>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toConfirmEvent">
-            Kinnita
-          </button>
+              Kinnita
+            </button>
             <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Kustuta
             </button>
           </td>
@@ -75,19 +75,12 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>sündmus</td>
-          <td>arv</td>
-          <td>arv</td>
+        <tr v-for="event in pastEvents">
+          <th scope="row">{{event.id}}</th>
+          <td>{{ event.eventName }}</td>
+          <td>{{ event.volunteersRequired }}</td>
+          <td>{{ event.volunteersAttended }}</td>
         </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>sündmus</td>
-          <td>arv</td>
-          <td>arv</td>
-        </tr>
-
         </tbody>
       </table>
 
@@ -98,20 +91,42 @@
 <script>
 export default {
   name: "AdminView",
+  props: {
+    pastEvents: {}
+  },
+
+  data: function () {
+    return {
+      eventId: sessionStorage.getItem('eventId'),
+      eventName: sessionStorage.getItem('eventName'),
+      volunteersRequired: sessionStorage.getItem('volunteersRequired'),
+      volunteersAttended: sessionStorage.getItem('volunteersAttended')
+    }
+  },
 
   methods: {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
     toChangeEvent: function () {
-      
+
     },
-    toConfirmEvent:function () {
-      
+    toConfirmEvent: function () {
+
     },
     toDeleteEvent: function () {
-      
+
+    },
+    toPastEvents: function () {
+      this.$http.get("admin/event/past")
+          .then(response => {
+            this.pastEvents = response.data
+            console.log(response.data)
+          })
     }
+  },
+  mounted() {
+    this.toPastEvents()
   }
 }
 </script>
