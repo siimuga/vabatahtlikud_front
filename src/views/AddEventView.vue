@@ -28,14 +28,14 @@
               <tbody>
               <tr>
                 <th>Ürituse nimi</th>
-                <td><input type="text" placeholder="Ürituse nimi"><!--v-model="example"--></td>
+                <td><input type="text" placeholder="Ürituse nimi" v-model="eventRequest.eventName"><!--v-model="example"--></td>
               </tr>
               <tr>
                 <th>Kuupäev(ad)</th>
                 <div>
                   <td class="input-group input-daterange"></td>
-                  <input type="date" class="form-control-sm" :value="Date.now()">
-                  <input type="date" class="form-control-sm" :value="Date.now()">
+                  <input type="date" class="form-control-sm" v-model="eventRequest.startDate">
+                  <input type="date" class="form-control-sm" v-model="eventRequest.endDate">
                 </div>
               </tr>
               <tr>
@@ -91,6 +91,7 @@ import ImageInput from "@/components/image/ImageInput";
 export default {
   name: "AddEventView",
   components: {ImageInput},
+
   data: function () {
     return {
       countyList: [],
@@ -104,7 +105,19 @@ export default {
       pictureExport: {
         data: String
       },
-      pictureImport: {}
+      pictureImport: {},
+      eventRequest: {
+        userId: 0,
+        categoryId: 0,
+        eventName: '',
+        startDate: '',
+        endDate: '',
+        locationCountyId: 0,
+        link: '',
+        locationAddress: '',
+        volunteersRequired: '',
+        languageId: 0
+      }
     }
   },
 
@@ -138,10 +151,24 @@ export default {
       this.$router.push({name: 'accountRoute'})
     },
     toSaveEvent: function () {
-      this.$router.push({name: 'addEventNextPageRoute'})
+
+      this.$http.post("/event/event", this.eventRequest
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+
+      // this.$router.push({name: 'addEventNextPageRoute'})
     },
+    setDates: function () {
+      this.eventRequest.startDate = new Date().toISOString().substring(0, 10)
+      this.eventRequest.endDate = new Date().toISOString().substring(0, 10)
+    }
+
   },
   mounted() {
+    this.setDates()
     this.findAllCategorys()
     this.findAllCountys()
     this.findAllLanguages()

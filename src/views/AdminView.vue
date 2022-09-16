@@ -72,14 +72,18 @@
           <th scope="col">Ürituse nimi</th>
           <th scope="col">Vabatahtlike arv</th>
           <th scope="col">Registreerunute arv</th>
+          <th scope="col"></th>
         </tr>
         </thead>
         <tbody>
         <tr v-for="event in pastEvents">
-          <th scope="row">{{event.id}}</th>
+          <th scope="row">{{ event.id }}</th>
           <td>{{ event.eventName }}</td>
           <td>{{ event.volunteersRequired }}</td>
           <td>{{ event.volunteersAttended }}</td>
+          <td>
+            <button type="submit" v-on:click="deleteEvent(event)">Kustuta</button>
+          </td>
         </tr>
         </tbody>
       </table>
@@ -91,20 +95,40 @@
 <script>
 export default {
   name: "AdminView",
-  props: {
-    pastEvents: {}
-  },
-
   data: function () {
     return {
       eventId: sessionStorage.getItem('eventId'),
       eventName: sessionStorage.getItem('eventName'),
       volunteersRequired: sessionStorage.getItem('volunteersRequired'),
-      volunteersAttended: sessionStorage.getItem('volunteersAttended')
+      volunteersAttended: sessionStorage.getItem('volunteersAttended'),
+      pastEvents: [
+        {
+          id: 0,
+          userRoleName: '',
+          eventName: '',
+          volunteersRequired: 0,
+          volunteersAttended: 0
+        }
+      ]
     }
   },
 
   methods: {
+    deleteEvent: function (event) {
+      this.$http.delete("/some/path", {
+        params: {
+          eventId: event.id,
+          eventName: event.eventName
+        }
+      })
+          .then(response => {
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+
+    },
+
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
@@ -121,9 +145,16 @@ export default {
       this.$http.get("admin/event/past")
           .then(response => {
             this.pastEvents = response.data
+
+            console.log("OLEME SIIN")
             console.log(response.data)
+
           })
-    }
+          .catch(error => {
+            console.log(error)
+          })
+    },
+
   },
   mounted() {
     this.toPastEvents()

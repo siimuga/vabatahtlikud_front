@@ -31,16 +31,22 @@
               </thead>
               <tbody>
               <tr>
-                <td>info</td>
-                <td>
-                  <button type="button" style="margin: 1px" class="btn btn-outline-dark" v-on:click="toAddTask">Lisa
-                  </button>
-                  <button type="button" style="margin: 1px" class="btn btn-danger" v-on:click="toDeleteTask">Kustuta
-                  </button>
-                </td>
+                <td>{{ additionalInfo.name }}</td>
+                <td><input type="text" placeholder="Lisainfo" :v-model="additionalInfo.name"></td>
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="addAdditionalInfo">
+                  Lisa
+                </button>
+                <button type="button" style="margin: 5px" class="btn btn-outline-danger"
+                        v-on:click="deleteAdditionalInfo">
+                  Kustuta
+                </button>
               </tr>
               </tbody>
             </table>
+            <!--            <div v-for="additionalInfo in additionalInfosList">-->
+            <!--              <td>{{additionalInfo.name}}</td>-->
+            <!--              <td><button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="deleteAdditionalInfo"></button> </td>-->
+            <!--            </div>-->
             <table class="table table-hover">
               <thead>
               <tr>
@@ -49,12 +55,12 @@
               </thead>
               <tbody>
               <tr>
-                <td>{{addTask}}</td>
+                <td>{{ task.name }}</td>
                 <td><input type="text" placeholder="Ülesanne" :v-model="task.name"></td>
-                  <button type="button" style="margin: 1px" class="btn btn-outline-dark" v-on:click="addTask">Lisa
-                  </button>
-                  <button type="button" style="margin: 1px" class="btn btn-danger" v-on:click="toDeleteTask">Kustuta
-                  </button>
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="addTask">Lisa
+                </button>
+                <button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="deleteTask">Kustuta
+                </button>
               </tr>
               </tbody>
             </table>
@@ -66,9 +72,12 @@
               </thead>
               <tbody>
               <tr>
-                <td><ImageInput @pictureInputSuccess="getPictureDataFromFile"/></td>
+                <td>
+                  <ImageInput @pictureInputSuccess="getPictureDataFromFile"/>
+                </td>
                 <button type="button" style="margin: 1px" class="btn btn-outline-dark"
-                        v-on:click="sendImageDataToBackend">Lisa</button>
+                        v-on:click="sendImageDataToBackend">Lisa
+                </button>
               </tr>
               </tbody>
             </table>
@@ -83,10 +92,10 @@
 </template>
 
 <script>
-import ImageInput from "@/components/image/ImageInput";
+import ImageInput from "@/components/image/ImageInput"
 
 export default {
-  name: "AddEventView",
+  name: "AddEventNextPageView",
   components: {ImageInput},
   props: {
     eventId: 1
@@ -97,16 +106,20 @@ export default {
       categoryList: [],
       languageList: [],
       selected: '',
-      addTask: '',
       pictureExport: {
         data: String
       },
       pictureImport: {},
-      task: {}
-
+      task: {
+        name: ''
+      },
+      additionalInfo: {
+        name: '',
+        eventId: 23
+        // eventId: sessionStorage.getItem('eventId')
+      },
     }
   },
-
   methods: {
     toAddEventPage: function () {
       this.$router.push({name: 'addEventRoute'})
@@ -115,36 +128,58 @@ export default {
       this.$router.push({name: 'logInRoute'})
     },
     addTask: function () {
-     // this.event.addTask = this.toAddTask()
       this.$http.post("event/task", this.event)
           .then(response => {
-            this.addTask = response.data
+            this.task = response.data
             console.log(response.data)
           })
     },
-    toDeleteTask: function () {
+    addAdditionalInfo: function () {
+      this.$http.post("event/additional/info", {}, this.event)
+          .then(response => {
+            this.additionalInfo = response.data
+            console.log(response.data)
+          })
+    },
+    deleteAdditionalInfo: function () {
+      this.$http.delete("event/delete/additional/info", this.event)
+          .then(response => {
+            this.deleteAdditionalInfo = response.data
+            console.log(response.data)
+          })
+    },
 
-    },
-    toHomePage: function () {
-      this.$router.push({name: 'homeRoute'})
-
-    },
-    getPictureDataFromFile: function (pictureDataBase64) {
-      this.pictureExport.data = pictureDataBase64
-    },
-    sendImageDataToBackend: function () {
-      this.$http.post("/event/picture", this.pictureExport
-      ).then(response => {
-        alert("Pilt edukalt lisatud!")
-      }).catch(error => {
-        alert("Viga pildi lisamisel!")
-      })
+    deleteTask: function () {
+      this.$http.delete("event/delete/task", this.event)
+          .then(response => {
+            this.deleteTask = response.data
+            console.log(response.data)
+          })
     },
   },
+  toHomePage: function () {
+    this.$router.push({name: 'homeRoute'})
+  },
+  getPictureDataFromFile: function (pictureDataBase64) {
+    this.pictureExport.data = pictureDataBase64
+  },
+  sendImageDataToBackend: function () {
+    this.$http.post("/event/picture", this.pictureExport
+    ).then(response => {
+      alert("Pilt edukalt lisatud!")
+    }).catch(error => {
+      alert("Viga pildi lisamisel!")
+    })
+  },
+
   mounted() {
     this.addTask()
+    this.addAdditionalInfo()
+    this.deleteAdditionalInfo()
+    this.deleteTask()
   }
 }
+
 </script>
 
 <style scoped>

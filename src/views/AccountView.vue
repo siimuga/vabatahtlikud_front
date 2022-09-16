@@ -10,7 +10,8 @@
           <h2><span style="color: #2c3e50">Minu konto</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu üritused
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu
+            üritused
           </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventPage">Lisa üritus
           </button>
@@ -54,10 +55,10 @@
               </tbody>
             </table>
 
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Muuda
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="updateUser">Muuda
               andmeid
             </button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Kustuta
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="deleteUser">Kustuta
               konto
             </button>
           </div>
@@ -77,7 +78,14 @@ export default {
   data: function () {
     return {
       divToHomePage: true,
-      example: 'Mari'
+      user: {
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        sex: '',
+        email: ''
+      }
     }
   },
 
@@ -93,9 +101,43 @@ export default {
     },
     toAddEventPage: function () {
       this.$router.push({name: 'addEventRoute'})
+    },
+    updateUser: function (user) {
+      this.$http.patch("/user/update", {}, {
+            params: {
+              username: user.username,
+              password: user.password,
+              firstName: user.firstName,
+              lastName: user.lastName,
+              sex: user.sex,
+              email: user.email
+            }
+          }
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+    deleteUser: function (user) {
+      this.$http.delete("/user/delete", {
+            params: {
+              username: user.username,
+              password: user.password,
+            }
+          }).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
     }
-  }
+  },
+  mounted: function () {
+    this.updateUser()
 }
+}
+
+
 </script>
 
 <style scoped>

@@ -31,11 +31,11 @@
                 <td><input type="text" placeholder="Ürituse nimi"><!--v-model="example"--></td>
               </tr>
               <tr>
-                <th>Aeg</th>
-                <div class="input-group input-daterange">
-                  <input type="date" class="form-control" value="2022-09-13">
-                  <div class="input-group-addon"> -</div>
-                  <input type="date" class="form-control" value="2023-09-13">
+                <th>Kuupäev(ad)</th>
+                <div>
+                  <td class="input-group input-daterange"></td>
+                  <input type="date" class="form-control-sm" v-model="eventRequest.startDate">
+                  <input type="date" class="form-control-sm" v-model="eventRequest.endDate">
                 </div>
               </tr>
               <tr>
@@ -99,7 +99,19 @@ export default {
       pictureExport: {
         data: String
       },
-      pictureImport: {}
+      pictureImport: {},
+      eventRequest: {
+        userId: 0,
+        categoryId: 0,
+        eventName: '',
+        startDate: '',
+        endDate: '',
+        locationCountyId: 0,
+        link: '',
+        locationAddress: '',
+        volunteersRequired: '',
+        languageId: 0
+      }
     }
   },
 
@@ -113,8 +125,13 @@ export default {
     toUpdateEventNextPage: function () {
       this.$router.push({name: 'updateEventNextPageRoute'})
     },
+    setDates: function () {
+      this.eventRequest.startDate = new Date().toISOString().substring(0, 10)
+      this.eventRequest.endDate = new Date().toISOString().substring(0, 10)
+    }
   },
   mounted() {
+    this.setDates()
     this.findAllCategorys()
     this.findAllCountys()
     this.findAllLanguages()
