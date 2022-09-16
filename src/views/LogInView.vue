@@ -22,7 +22,6 @@
             <h3><span style="color: #2c3e50">Loo uus konto</span></h3>
             <AlertError :errorMessage="errorMessage"/>
             <table class="table table-hover">
-              <caption>Uue konto loomine</caption>
               <tbody>
               <tr>
                 <th>Kasutajanimi</th>
@@ -42,14 +41,78 @@
                 <th>Perekonnanimi</th>
                 <td><input type="text" placeholder="Perekonnanimi" v-model="newUserRequest.lastName"></td>
               </tr>
-              <tr>
-                <th>Sugu</th>
-                <td><input type="text" placeholder="Sugu" v-model="newUserRequest.sex"></td>
-              </tr>
-              <tr>
-                <th>Email</th>
-                <td><input type="text" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
-              </tr>
+              <div class="row" align="right">
+                <div class="col">
+                  <div class="col">
+                  <tr>
+
+                    <th>Sugu</th>
+                    <br>
+                    <div class="form-check">
+                      <input class="form-check-input"
+                             type="radio"
+                             v-model="newUserRequest.sex"
+                             name="sex"
+                             id="M"
+                             value="M">
+                      <label class="form-check-label" for="M">
+                        Mees
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input"
+                             type="radio"
+                             v-model="newUserRequest.sex"
+                             name="sex"
+                             id="N"
+                             value="N">
+                      <label class="form-check-label" for="N">
+                        Naine
+                      </label>
+                    </div>
+                  </tr>
+                </div>
+                </div>
+
+                <div class="col">
+                <div class="col">
+                  <tr>
+                    <th>Vanus</th>
+                    <br>
+                    <div class="form-check">
+                      <input class="form-check-input"
+                             type="radio"
+                             v-model="newUserRequest.age"
+                             name="age"
+                             id="adult"
+                             value='adult'>
+                      <label class="form-check-label" for="adult">
+                        Täisealine
+                      </label>
+                    </div>
+                    <div class="form-check">
+                      <input class="form-check-input"
+                             type="radio"
+                             v-model="newUserRequest.age"
+                             name="age"
+                             id="notAdult"
+                             value='notAdult'>
+                      <label class="form-check-label" for="notAdult">
+                        Alla 18a
+                      </label>
+                    </div>
+                  </tr>
+
+                </div>
+                </div>
+
+                <div class="col">
+                <tr>
+                  <th>Email</th>
+                  <td><input type="text" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
+                </tr>
+              </div>
+              </div>
               </tbody>
             </table>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="registerNewUser">Loo
@@ -80,10 +143,10 @@ export default {
         password: '',
       },
       loginResponse: {
-        userId: 0,
+        userId: null,
         role: '',
-        contactId: 0,
-        status: 0
+        contactId: null,
+        status: null
       },
       newUserRequest: {
         username: '',
@@ -91,11 +154,13 @@ export default {
         firstName: '',
         lastName: '',
         sex: '',
+        age: '',
         email: ''
       },
       successMessage: '',
       errorMessage: '',
-      errorMessage2: ''
+      errorMessage2: '',
+      errorMessage3: ''
     }
   },
   methods: {
@@ -104,15 +169,17 @@ export default {
       location.reload()
     },
     registerNewUser: function () {
-      this.$http.post("/register/user", this.newUserRequest
-      ).then(response => {
-        alert(this.successMessage = 'Konto loodud')
-        this.newUserRequest.userId = response.data.userId
-        sessionStorage.setItem('userId', this.loginResponse.userId)
-        this.$router.push({name: 'homeRoute'})
-      }).catch(error => {
-        this.errorMessage = error.response.data.detail
-      })
+      if (this.newUserRequest.age === 'adult') {
+        this.$http.post("/register/user", this.newUserRequest
+        ).then(response => {
+          alert(this.successMessage = 'Konto loodud')
+          this.newUserRequest.userId = response.data.userId
+          sessionStorage.setItem('userId', this.loginResponse.userId)
+          this.$router.push({name: 'homeRoute'})
+        }).catch(error => {
+          this.errorMessage = error.response.data.detail
+        })
+      } else { alert(this.errorMessage3 = 'Konto loomiseks peab olema täisealine!')}
     },
     logIn: function () {
       this.$http.post("/log-in", this.loginRequest
@@ -129,7 +196,6 @@ export default {
         this.errorMessage2 = error.response.data.detail
       })
     }
-
   }
 }
 </script>
