@@ -28,13 +28,13 @@
       <tbody>
       <tr>
         <td>
-          <div class="form-check">
+          <div class="form-check" style="text-align: left">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
             <label class="form-check-label" for="flexCheckDefault">
               kuupäev 1
             </label>
           </div>
-          <div class="form-check">
+          <div class="form-check" style="text-align: left">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
             <label class="form-check-label" for="flexCheckChecked">
               kuupäev 2
@@ -42,13 +42,13 @@
           </div>
         </td>
         <td>
-          <div class="form-check">
+          <div class="form-check" style="text-align: left">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
             <label class="form-check-label" for="flexCheckDefault">
               ülesanne 1
             </label>
           </div>
-          <div class="form-check">
+          <div class="form-check" style="text-align: left">
             <input class="form-check-input" type="checkbox" value="" id="flexCheckChecked" checked>
             <label class="form-check-label" for="flexCheckChecked">
               ülesanne 2

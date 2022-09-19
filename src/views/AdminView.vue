@@ -28,33 +28,16 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-          <th scope="row">1</th>
-          <td>sündmus</td>
-          <td>arv</td>
-          <td>arv</td>
+        <tr v-for="event in futureEvents">
+          <th scope="row">{{ event.id }}</th>
+          <td>{{ event.eventName }}</td>
+          <td>{{ event.volunteersRequired }}</td>
+          <td>{{ event.volunteersAttended }}</td>
           <td>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
               Muuda
             </button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toConfirmEvent">
-              Kinnita
-            </button>
-            <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Kustuta
-            </button>
-          </td>
-
-        </tr>
-        <tr>
-          <th scope="row">2</th>
-          <td>sündmus</td>
-          <td>arv</td>
-          <td>arv</td>
-          <td>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
-              Muuda
-            </button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toConfirmEvent">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent">
               Kinnita
             </button>
             <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Kustuta
@@ -81,9 +64,6 @@
           <td>{{ event.eventName }}</td>
           <td>{{ event.volunteersRequired }}</td>
           <td>{{ event.volunteersAttended }}</td>
-          <td>
-            <button type="submit" v-on:click="deleteEvent(event)">Kustuta</button>
-          </td>
         </tr>
         </tbody>
       </table>
@@ -101,6 +81,9 @@ export default {
       eventName: sessionStorage.getItem('eventName'),
       volunteersRequired: sessionStorage.getItem('volunteersRequired'),
       volunteersAttended: sessionStorage.getItem('volunteersAttended'),
+      event: {
+        eventId: 0,
+      },
       pastEvents: [
         {
           id: 0,
@@ -109,16 +92,25 @@ export default {
           volunteersRequired: 0,
           volunteersAttended: 0
         }
+      ],
+      futureEvents: [
+        {
+          eventId: 0,
+          pictureData: null,
+          eventName: '',
+          volunteersRequired: 0,
+          volunteersAttended: 0,
+          hasPicture: null
+        }
       ]
     }
   },
 
   methods: {
-    deleteEvent: function (event) {
-      this.$http.delete("/some/path", {
+    confirmEvent: function (event) {
+      this.$http.patch("/admin/event/valid", {}, {
         params: {
-          eventId: event.id,
-          eventName: event.eventName
+          eventId: event.eventId
         }
       })
           .then(response => {
@@ -126,37 +118,54 @@ export default {
           }).catch(error => {
         console.log(error)
       })
-
-    },
-
-    toHomePage: function () {
-      this.$router.push({name: 'homeRoute'})
-    },
-    toChangeEvent: function () {
-
-    },
-    toConfirmEvent: function () {
-
-    },
-    toDeleteEvent: function () {
-
-    },
-    toPastEvents: function () {
-      this.$http.get("admin/event/past")
-          .then(response => {
-            this.pastEvents = response.data
-
-            console.log("OLEME SIIN")
-            console.log(response.data)
-
-          })
-          .catch(error => {
-            console.log(error)
-          })
-    },
-
+    }
   },
+
+  deleteEvent: function (event) {
+    this.$http.delete("/some/path", {
+      params: {
+        eventId: event.id,
+        eventName: event.eventName
+      }
+    })
+        .then(response => {
+          console.log(response.data)
+        }).catch(error => {
+      console.log(error)
+    })
+  },
+
+  toHomePage: function () {
+    this.$router.push({name: 'homeRoute'})
+  },
+
+  toFutureEvents: function () {
+    this.$http.get("admin/event/events")
+        .then(response => {
+          this.futureEvents = response.data
+          console.log("OLEME SIIN")
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+  },
+
+  toPastEvents: function () {
+    this.$http.get("admin/event/past")
+        .then(response => {
+          this.pastEvents = response.data
+          console.log("OLEME SIIN")
+          console.log(response.data)
+        })
+        .catch(error => {
+          console.log(error)
+        })
+  },
+
   mounted() {
+    this.confirmEvent()
+    this.toFutureEvents()
     this.toPastEvents()
   }
 }
