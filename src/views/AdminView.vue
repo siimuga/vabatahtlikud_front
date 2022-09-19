@@ -24,7 +24,7 @@
           <th scope="col"></th>
           <th scope="col">Ürituse nimi</th>
           <th scope="col">Vabatahtlike arv</th>
-          <th scope="col">Registreerunute arv</th>
+          <th scope="col">Registreerinute arv</th>
         </tr>
         </thead>
         <tbody>
@@ -37,7 +37,7 @@
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
               Muuda
             </button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent(event)">
               Kinnita
             </button>
             <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Kustuta
@@ -54,8 +54,7 @@
           <th scope="col"></th>
           <th scope="col">Ürituse nimi</th>
           <th scope="col">Vabatahtlike arv</th>
-          <th scope="col">Registreerunute arv</th>
-          <th scope="col"></th>
+          <th scope="col">Registreerinute arv</th>
         </tr>
         </thead>
         <tbody>
@@ -77,17 +76,17 @@ export default {
   name: "AdminView",
   data: function () {
     return {
-      eventId: sessionStorage.getItem('eventId'),
-      eventName: sessionStorage.getItem('eventName'),
-      volunteersRequired: sessionStorage.getItem('volunteersRequired'),
-      volunteersAttended: sessionStorage.getItem('volunteersAttended'),
-      event: {
-        eventId: 0,
-      },
+      // eventId: sessionStorage.getItem('eventId'),
+      // eventName: sessionStorage.getItem('eventName'),
+      // volunteersRequired: sessionStorage.getItem('volunteersRequired'),
+      // volunteersAttended: sessionStorage.getItem('volunteersAttended'),
+      // event: {
+      //   eventId: 0,
+      // },
       pastEvents: [
         {
           id: 0,
-          userRoleName: '',
+          roleName: '',
           eventName: '',
           volunteersRequired: 0,
           volunteersAttended: 0
@@ -107,6 +106,9 @@ export default {
   },
 
   methods: {
+    toHomePage: function () {
+      this.$router.push({name: 'homeRoute'})
+    },
     confirmEvent: function (event) {
       this.$http.patch("/admin/event/valid", {}, {
         params: {
@@ -118,53 +120,47 @@ export default {
           }).catch(error => {
         console.log(error)
       })
+      alert(this.successMessage = 'Üritus ' + event.eventName + ' on kinnitatud')
+      location.reload()
+    },
+    deleteEvent: function (event) {
+      this.$http.delete("/some/path", {
+        params: {
+          eventId: event.id,
+          eventName: event.eventName
+        }
+      })
+          .then(response => {
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
+    toFutureEvents: function () {
+      this.$http.get("admin/event/events")
+          .then(response => {
+            this.futureEvents = response.data
+            console.log("OLEME SIIN")
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
+    },
+
+    toPastEvents: function () {
+      this.$http.get("admin/event/past")
+          .then(response => {
+            this.pastEvents = response.data
+            console.log("OLEME SIIN")
+            console.log(response.data)
+          })
+          .catch(error => {
+            console.log(error)
+          })
     }
   },
-
-  deleteEvent: function (event) {
-    this.$http.delete("/some/path", {
-      params: {
-        eventId: event.id,
-        eventName: event.eventName
-      }
-    })
-        .then(response => {
-          console.log(response.data)
-        }).catch(error => {
-      console.log(error)
-    })
-  },
-
-  toHomePage: function () {
-    this.$router.push({name: 'homeRoute'})
-  },
-
-  toFutureEvents: function () {
-    this.$http.get("admin/event/events")
-        .then(response => {
-          this.futureEvents = response.data
-          console.log("OLEME SIIN")
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-  },
-
-  toPastEvents: function () {
-    this.$http.get("admin/event/past")
-        .then(response => {
-          this.pastEvents = response.data
-          console.log("OLEME SIIN")
-          console.log(response.data)
-        })
-        .catch(error => {
-          console.log(error)
-        })
-  },
-
   mounted() {
-    this.confirmEvent()
     this.toFutureEvents()
     this.toPastEvents()
   }

@@ -137,7 +137,7 @@ export default {
       this.$router.push({name: 'accountRoute'})
     },
     toChangeEvent: function () {
-      this.$router.push({name: 'addEventRoute'})
+      this.$router.push({name: 'updateEventRoute'})
     },
     toDeleteEvent: function (event) {
       this.$http.delete("/event/event", {
