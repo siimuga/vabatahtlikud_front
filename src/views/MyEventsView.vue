@@ -40,8 +40,9 @@
               <td>{{ event.volunteersRequired }}</td>
               <td>{{ event.volunteersAttended }}</td>
               <td>{{ event.roleName }}</td>
-              <td v-if="event.roleName === 'vabatahtlik'" v-model="volunteerDeleteRequest.eventId">
-                <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="cancelParticipation">Tühista
+              <td v-if="event.roleName === 'vabatahtlik'">
+                <button type="button" style="margin: 5px" class="btn btn-danger"
+                        v-on:click="cancelParticipation(event)">Tühista
                   osalemine
                 </button>
               </td>
@@ -49,7 +50,7 @@
                 <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
                   Muuda
                 </button>
-                <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Kustuta
+                <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent(event)">Kustuta
                 </button>
               </td>
             </tr>
@@ -105,7 +106,6 @@ export default {
       divToHomePage: true,
       example: 'Mari',
       userId: sessionStorage.getItem('userId'),
-      selectedEventId : 0,
       pastEvents: [
         {
           id: 0,
@@ -125,12 +125,6 @@ export default {
           volunteersAttended: 0
         }
       ],
-      volunteerDeleteRequest: [
-        {
-          userId: 0,
-          eventId: sessionStorage.getItem('userId')
-        }
-      ],
       successMessage: ''
     }
   },
@@ -145,19 +139,34 @@ export default {
     toChangeEvent: function () {
       this.$router.push({name: 'addEventRoute'})
     },
-    toDeleteEvent: function () {
-      this.$router.push({name: 'homeRoute'})
+    toDeleteEvent: function (event) {
+      this.$http.delete("/event/event", {
+            params: {
+              eventId: event.eventId
+            }
+          }
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+      alert(this.successMessage = 'Üritus kustutatud')
+      location.reload()
     },
-
-    cancelParticipation: function () {
-        this.$http.delete("/event/event/cancel", this.volunteerDeleteRequest
-        ).then(response => {
-          alert(this.successMessage = 'Osalemine tühistatud')
-          location.reload();
-          console.log(response.data)
-        }).catch(error => {
-          console.log(error)
-        })
+    cancelParticipation: function (event) {
+      this.$http.delete("/event/event/cancel", {
+            params: {
+              userId: this.userId,
+              eventId: event.eventId
+            }
+          }
+      ).then(response => {
+           console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+      alert(this.successMessage = 'Osalemine tühistatud')
+      location.reload()
     },
     findPastEvents: function () {
       this.$http.get("/event/event/user/history", {
@@ -191,6 +200,7 @@ export default {
   mounted() {
     this.findPastEvents()
     this.findAllActiveEvents()
+    this.successMessage = ''
   }
 }
 </script>
