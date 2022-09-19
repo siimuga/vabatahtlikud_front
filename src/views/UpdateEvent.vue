@@ -28,7 +28,7 @@
               <tbody>
               <tr>
                 <th>Ürituse nimi</th>
-                <td><input type="text" placeholder="Ürituse nimi"><!--v-model="example"--></td>
+                <td><input type="text" placeholder="Ürituse nimi" v-model="eventName"></td>
               </tr>
               <tr>
                 <th>Kuupäev(ad)</th>
@@ -54,11 +54,11 @@
               </tr>
               <tr>
                 <th>Aadress</th>
-                <td><input type="text" placeholder="Aadress"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="Aadress" v-model="locationAddress"></td>
               </tr>
               <tr>
                 <th>Vabatahtlike arv</th>
-                <td><input type="text" placeholder="Arv"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="Arv" v-model="volunteersRequired"></td>
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
@@ -127,6 +127,10 @@ export default {
     }
   },
 
+  // beforeMount() {
+  //   this.events = JSON.parse(sessionStorage.getItem('events'))
+  // },
+
   methods: {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
@@ -165,6 +169,7 @@ export default {
     this.findAllCategorys()
     this.findAllCountys()
     this.findAllLanguages()
+    this.events = JSON.parse(sessionStorage.getItem('events'))
     this.updateEvent()
   },
 }

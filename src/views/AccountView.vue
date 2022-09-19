@@ -15,7 +15,7 @@
           </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventPage">Lisa üritus
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="logOut">Logi välja
           </button>
         </div>
       </div>
@@ -30,31 +30,30 @@
               <tbody>
               <tr>
                 <th>Kasutajanimi</th>
-                <td><input type="text" placeholder="Kasutajanimi"><!--v-model="example"--></td>
+                <td><input type="text" placeholder="Kasutajanimi"></td>
               </tr>
               <tr>
                 <th>Parool</th>
-                <td><input type="text" placeholder="Parool"> <!--v-model="example"--><br></td>
+                <td><input type="text" placeholder="Parool"><br></td>
               </tr>
               <tr>
                 <th>Eesnimi</th>
-                <td><input type="text" placeholder="Eesnimi"> <!--v-model="example"--><br></td>
+                <td><input type="text" placeholder="Eesnimi"><br></td>
               </tr>
               <tr>
                 <th>Perekonnanimi</th>
-                <td><input type="text" placeholder="Perekonnanimi"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="Perekonnanimi"></td>
               </tr>
               <tr>
                 <th>Sugu</th>
-                <td><input type="text" placeholder="M/N"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="M/N"></td>
               </tr>
               <tr>
                 <th>Meiliaadress</th>
-                <td><input type="text" placeholder="Meiliaadress"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="Meiliaadress"></td>
               </tr>
               </tbody>
             </table>
-
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="updateUser">Muuda
               andmeid
             </button>
@@ -66,7 +65,6 @@
       </div>
     </div>
   </div>
-
 
 </template>
 
@@ -93,9 +91,6 @@ export default {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
-    toLogInPage: function () {
-      this.$router.push({name: 'logInRoute'})
-    },
     toMyEventsPage: function () {
       this.$router.push({name: 'myEventsRoute'})
     },
@@ -121,22 +116,26 @@ export default {
     },
     deleteUser: function (user) {
       this.$http.delete("/user/delete", {
-            params: {
-              username: user.username,
-              password: user.password,
-            }
-          }).then(response => {
+        params: {
+          username: user.username,
+          password: user.password,
+        }
+      }).then(response => {
         console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
+    },
+    logOut: function () {
+      this.$router.push({name: 'homeRoute'})
+      sessionStorage.removeItem('userId')
     }
   },
   mounted: function () {
     this.updateUser()
+    this.logOut()
+  }
 }
-}
-
 
 </script>
 

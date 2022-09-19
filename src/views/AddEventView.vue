@@ -28,7 +28,8 @@
               <tbody>
               <tr>
                 <th>Ürituse nimi</th>
-                <td><input type="text" placeholder="Ürituse nimi" v-model="eventRequest.eventName"><!--v-model="example"--></td>
+                <td><input type="text" placeholder="Ürituse nimi" v-model="eventRequest.eventName">
+                  <!--v-model="example"--></td>
               </tr>
               <tr>
                 <th>Kuupäev(ad)</th>
@@ -64,7 +65,7 @@
                 <th>Suhtluskeel</th>
                 <select v-model="selectedLanguage">
                   <option disabled value="">Vali keel</option>
-                  <option v-for="option in languageList">{{ option.name }}</option >
+                  <option v-for="option in languageList">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
@@ -125,21 +126,21 @@ export default {
     findAllCategorys: function () {
       this.$http.get("/event/category")
           .then(response => {
-            this.categoryList=response.data
+            this.categoryList = response.data
             console.log(response.data)
           })
     },
     findAllCountys: function () {
       this.$http.get("/event/county")
           .then(response => {
-            this.countyList=response.data
+            this.countyList = response.data
             console.log(response.data)
           })
     },
     findAllLanguages: function () {
       this.$http.get("/event/language")
           .then(response => {
-            this.languageList=response.data
+            this.languageList = response.data
             console.log(response.data)
           })
     },

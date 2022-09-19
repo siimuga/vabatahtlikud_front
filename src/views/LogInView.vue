@@ -44,74 +44,74 @@
               <div class="row" align="right">
                 <div class="col">
                   <div class="col">
-                  <tr>
+                    <tr>
 
-                    <th>Sugu</th>
-                    <br>
-                    <div class="form-check">
-                      <input class="form-check-input"
-                             type="radio"
-                             v-model="newUserRequest.sex"
-                             name="sex"
-                             id="M"
-                             value="M">
-                      <label class="form-check-label" for="M">
-                        Mees
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input"
-                             type="radio"
-                             v-model="newUserRequest.sex"
-                             name="sex"
-                             id="N"
-                             value="N">
-                      <label class="form-check-label" for="N">
-                        Naine
-                      </label>
-                    </div>
+                      <th>Sugu</th>
+                      <br>
+                      <div class="form-check">
+                        <input class="form-check-input"
+                               type="radio"
+                               v-model="newUserRequest.sex"
+                               name="sex"
+                               id="M"
+                               value="M">
+                        <label class="form-check-label" for="M">
+                          Mees
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input"
+                               type="radio"
+                               v-model="newUserRequest.sex"
+                               name="sex"
+                               id="N"
+                               value="N">
+                        <label class="form-check-label" for="N">
+                          Naine
+                        </label>
+                      </div>
+                    </tr>
+                  </div>
+                </div>
+
+                <div class="col">
+                  <div class="col">
+                    <tr>
+                      <th>Vanus</th>
+                      <br>
+                      <div class="form-check">
+                        <input class="form-check-input"
+                               type="radio"
+                               v-model="newUserRequest.age"
+                               name="age"
+                               id="adult"
+                               value='adult'>
+                        <label class="form-check-label" for="adult">
+                          Täisealine
+                        </label>
+                      </div>
+                      <div class="form-check">
+                        <input class="form-check-input"
+                               type="radio"
+                               v-model="newUserRequest.age"
+                               name="age"
+                               id="notAdult"
+                               value='notAdult'>
+                        <label class="form-check-label" for="notAdult">
+                          Alla 18a
+                        </label>
+                      </div>
+                    </tr>
+
+                  </div>
+                </div>
+
+                <div class="col">
+                  <tr>
+                    <th>Email</th>
+                    <td><input type="text" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
                   </tr>
                 </div>
-                </div>
-
-                <div class="col">
-                <div class="col">
-                  <tr>
-                    <th>Vanus</th>
-                    <br>
-                    <div class="form-check">
-                      <input class="form-check-input"
-                             type="radio"
-                             v-model="newUserRequest.age"
-                             name="age"
-                             id="adult"
-                             value='adult'>
-                      <label class="form-check-label" for="adult">
-                        Täisealine
-                      </label>
-                    </div>
-                    <div class="form-check">
-                      <input class="form-check-input"
-                             type="radio"
-                             v-model="newUserRequest.age"
-                             name="age"
-                             id="notAdult"
-                             value='notAdult'>
-                      <label class="form-check-label" for="notAdult">
-                        Alla 18a
-                      </label>
-                    </div>
-                  </tr>
-
-                </div>
-                </div>
-
-                <div class="col">
-                <tr>
-                  <th>Email</th>
-                  <td><input type="text" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
-                </tr>
-              </div>
               </div>
               </tbody>
             </table>
@@ -179,7 +179,9 @@ export default {
         }).catch(error => {
           this.errorMessage = error.response.data.detail
         })
-      } else { alert(this.errorMessage3 = 'Konto loomiseks peab olema täisealine!')}
+      } else {
+        alert(this.errorMessage3 = 'Konto loomiseks peab olema täisealine!')
+      }
     },
     logIn: function () {
       this.$http.post("/log-in", this.loginRequest

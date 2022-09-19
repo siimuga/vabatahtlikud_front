@@ -99,7 +99,7 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    registerToEvent:function () {
+    registerToEvent: function () {
       this.$http.post("/volunteer/register", this.volunteer
       ).then(response => {
         console.log(response.data)
