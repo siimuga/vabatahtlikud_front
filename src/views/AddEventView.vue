@@ -79,7 +79,7 @@
       </div>
     </div>
     <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toSaveEvent">Salvesta
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="saveEvent">Salvesta
       </button>
     </div>
   </div>
@@ -123,21 +123,21 @@ export default {
 
   methods: {
     findAllCategorys: function () {
-      this.$http.get("event/category")
+      this.$http.get("/event/category")
           .then(response => {
             this.categoryList=response.data
             console.log(response.data)
           })
     },
     findAllCountys: function () {
-      this.$http.get("event/county")
+      this.$http.get("/event/county")
           .then(response => {
             this.countyList=response.data
             console.log(response.data)
           })
     },
     findAllLanguages: function () {
-      this.$http.get("event/language")
+      this.$http.get("/event/language")
           .then(response => {
             this.languageList=response.data
             console.log(response.data)
@@ -150,7 +150,7 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    toSaveEvent: function () {
+    saveEvent: function () {
 
       this.$http.post("/event/event", this.eventRequest
       ).then(response => {
@@ -172,6 +172,7 @@ export default {
     this.findAllCategorys()
     this.findAllCountys()
     this.findAllLanguages()
+    this.saveEvent()
   },
 
 }

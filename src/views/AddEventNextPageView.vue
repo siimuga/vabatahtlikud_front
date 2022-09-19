@@ -86,7 +86,7 @@
       </div>
     </div>
     <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Valmis</button>
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="saveEvent">Valmis</button>
     </div>
   </div>
 </template>
@@ -115,7 +115,7 @@ export default {
       },
       additionalInfo: {
         name: '',
-        eventId: 23
+        eventId: 0
         // eventId: sessionStorage.getItem('eventId')
       },
     }
@@ -128,21 +128,21 @@ export default {
       this.$router.push({name: 'logInRoute'})
     },
     addTask: function () {
-      this.$http.post("event/task", this.event)
+      this.$http.post("/event/task", this.event)
           .then(response => {
             this.task = response.data
             console.log(response.data)
           })
     },
     addAdditionalInfo: function () {
-      this.$http.post("event/additional/info", {}, this.event)
+      this.$http.post("/event/additional/info", {}, this.event)
           .then(response => {
             this.additionalInfo = response.data
             console.log(response.data)
           })
     },
     deleteAdditionalInfo: function () {
-      this.$http.delete("event/delete/additional/info", this.event)
+      this.$http.delete("/event/delete/additional/info", this.event)
           .then(response => {
             this.deleteAdditionalInfo = response.data
             console.log(response.data)
@@ -150,9 +150,16 @@ export default {
     },
 
     deleteTask: function () {
-      this.$http.delete("event/delete/task", this.event)
+      this.$http.delete("/event/delete/task", this.event)
           .then(response => {
             this.deleteTask = response.data
+            console.log(response.data)
+          })
+    },
+    saveEvent: function () {
+      this.$http.post("/event/event", this.event)
+          .then(response => {
+            this.saveEvent = response.data
             console.log(response.data)
           })
     },
@@ -177,6 +184,7 @@ export default {
     this.addAdditionalInfo()
     this.deleteAdditionalInfo()
     this.deleteTask()
+    this.saveEvent()
   }
 }
 

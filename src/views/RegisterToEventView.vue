@@ -81,6 +81,16 @@
 <script>
 export default {
   name: "RegisterView",
+  data: function () {
+    return {
+      volunteer: {
+        userId: 0,
+        eventId: 0,
+        volunteersSize: 0,
+        info: ''
+      }
+    }
+  },
 
   methods: {
     toHomePage: function () {
@@ -90,8 +100,16 @@ export default {
       this.$router.push({name: 'accountRoute'})
     },
     registerToEvent:function () {
-      
-    }
+      this.$http.post("/volunteer/register", this.volunteer
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+    },
+  },
+  mounted() {
+    this.registerToEvent()
   }
 }
 </script>

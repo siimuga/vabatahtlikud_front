@@ -75,7 +75,7 @@
       </div>
     </div>
     <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toUpdateEventNextPage">Edasi
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="updateEvent">Edasi
       </button>
     </div>
   </div>
@@ -111,7 +111,19 @@ export default {
         locationAddress: '',
         volunteersRequired: '',
         languageId: 0
-      }
+      },
+      event: {
+        eventId: 0,
+        categoryId: 0,
+        eventName: '',
+        startDate: '',
+        endDate: '',
+        locationCountyId: 0,
+        link: '',
+        locationAddress: '',
+        volunteersRequired: '',
+        languageId: 0
+      },
     }
   },
 
@@ -122,12 +134,30 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    toUpdateEventNextPage: function () {
-      this.$router.push({name: 'updateEventNextPageRoute'})
-    },
     setDates: function () {
       this.eventRequest.startDate = new Date().toISOString().substring(0, 10)
       this.eventRequest.endDate = new Date().toISOString().substring(0, 10)
+    },
+    updateEvent: function (event) {
+      this.$http.patch("/event/event", {}, {
+            params: {
+              eventId: event.eventId,
+              categoryId: event.categoryId,
+              eventName: event.eventName,
+              startDate: event.startDate,
+              endDate: event.endDate,
+              locationCountyId: event.locationCountyId,
+              link: event.link,
+              locationAddress: event.locationAddress,
+              volunteersRequired: event.volunteersRequired,
+              languageId: event.languageId
+            }
+          }
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   },
   mounted() {
@@ -135,6 +165,7 @@ export default {
     this.findAllCategorys()
     this.findAllCountys()
     this.findAllLanguages()
+    this.updateEvent()
   },
 }
 </script>
