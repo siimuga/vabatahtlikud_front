@@ -40,7 +40,7 @@
               <td>{{ event.volunteersRequired }}</td>
               <td>{{ event.volunteersAttended }}</td>
               <td>{{ event.roleName }}</td>
-              <td v-if="event.roleName === 'vabatahtlik'" v-model="event.eventId">
+              <td v-if="event.roleName === 'vabatahtlik'" v-model="volunteerDeleteRequest.eventId">
                 <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="cancelParticipation">Tühista
                   osalemine
                 </button>
@@ -127,8 +127,8 @@ export default {
       ],
       volunteerDeleteRequest: [
         {
-          userId: sessionStorage.getItem('userId'),
-          eventId: event.eventId
+          userId: 0,
+          eventId: sessionStorage.getItem('userId')
         }
       ],
       successMessage: ''
@@ -148,6 +148,7 @@ export default {
     toDeleteEvent: function () {
       this.$router.push({name: 'homeRoute'})
     },
+
     cancelParticipation: function () {
         this.$http.delete("/event/event/cancel", this.volunteerDeleteRequest
         ).then(response => {
