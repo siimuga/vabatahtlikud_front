@@ -104,27 +104,9 @@ export default {
   data: function () {
     return {
       divToHomePage: true,
-      example: 'Mari',
       userId: sessionStorage.getItem('userId'),
-      pastEvents: [
-        {
-          id: 0,
-          roleName: '',
-          eventName: '',
-          volunteersRequired: 0,
-          volunteersAttended: 0
-        }
-      ],
-      activeEvents: [
-        {
-          seqNr: 0,
-          eventId: 0,
-          roleName: '',
-          eventName: '',
-          volunteersRequired: 0,
-          volunteersAttended: 0
-        }
-      ],
+      pastEvents: [],
+      activeEvents: [],
       successMessage: ''
     }
   },

@@ -17,97 +17,95 @@
     </div>
     <div class="col-sm">
       <h5 align="left" style="margin: 5px"><u><span style="color: #2c3e50">Eesolevad üritused</span></u></h5>
+      <div>
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Ürituse nimi</th>
+            <th scope="col">Vabatahtlike arv</th>
+            <th scope="col">Registreerinute arv</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="event in futureEvents">
+            <th scope="row">{{ event.seqNr }}</th>
+            <td>{{ event.eventName }}</td>
+            <td>{{ event.volunteersRequired }}</td>
+            <td>{{ event.volunteersAttended }}</td>
+            <td v-if="event.status === 'c'">
+              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
+                Muuda
+              </button>
+              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent(event)">
+                Kinnita
+              </button>
+              <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent(event)">Kustuta
+              </button>
+            </td>
 
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">Ürituse nimi</th>
-          <th scope="col">Vabatahtlike arv</th>
-          <th scope="col">Registreerinute arv</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="event in futureEvents">
-          <th scope="row">{{ event.id }}</th>
-          <td>{{ event.eventName }}</td>
-          <td>{{ event.volunteersRequired }}</td>
-          <td>{{ event.volunteersAttended }}</td>
-          <td>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
-              Muuda
-            </button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent(event)">
-              Kinnita
-            </button>
-            <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent">Kustuta
-            </button>
-          </td>
-        </tr>
-        </tbody>
-      </table>
+            <td v-if="event.status === 'v'">
+              <button type="button" style="margin: 5px" class="btn btn-success">
+                Kinnitatud
+              </button>
+              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
+                Muuda
+              </button>
+              <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent(event)">Kustuta
+              </button>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
       <br>
       <h5 align="left" style="margin: 5px"><u><span style="color: #2c3e50">Möödunud üritused</span></u></h5>
-      <table class="table table-hover">
-        <thead>
-        <tr>
-          <th scope="col"></th>
-          <th scope="col">Ürituse nimi</th>
-          <th scope="col">Vabatahtlike arv</th>
-          <th scope="col">Registreerinute arv</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr v-for="event in pastEvents">
-          <th scope="row">{{ event.id }}</th>
-          <td>{{ event.eventName }}</td>
-          <td>{{ event.volunteersRequired }}</td>
-          <td>{{ event.volunteersAttended }}</td>
-        </tr>
-        </tbody>
-      </table>
-
+      <div v-if="pastEvents.length>0">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Ürituse nimi</th>
+            <th scope="col">Vabatahtlike arv</th>
+            <th scope="col">Registreerinute arv</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr v-for="event in pastEvents">
+            <th scope="row">{{ event.seqNr }}</th>
+            <td>{{ event.eventName }}</td>
+            <td>{{ event.volunteersRequired }}</td>
+            <td>{{ event.volunteersAttended }}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+      <h3 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="pastEvents.length===0">Möödunuid üritusi pole</span>
+      </h3>
     </div>
   </div>
 </template>
 
 <script>
+import AlertSuccess from "@/alerts/AlertSuccess";
+
 export default {
   name: "AdminView",
+  components: {AlertSuccess},
   data: function () {
     return {
-      // eventId: sessionStorage.getItem('eventId'),
-      // eventName: sessionStorage.getItem('eventName'),
-      // volunteersRequired: sessionStorage.getItem('volunteersRequired'),
-      // volunteersAttended: sessionStorage.getItem('volunteersAttended'),
-      // event: {
-      //   eventId: 0,
-      // },
-      pastEvents: [
-        {
-          id: 0,
-          roleName: '',
-          eventName: '',
-          volunteersRequired: 0,
-          volunteersAttended: 0
-        }
-      ],
-      futureEvents: [
-        {
-          eventId: 0,
-          pictureData: null,
-          eventName: '',
-          volunteersRequired: 0,
-          volunteersAttended: 0,
-          hasPicture: null
-        }
-      ]
+      divDisplayConfirmed: true,
+      futureEvents: [],
+      pastEvents: []
     }
   },
 
   methods: {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
+    },
+    toChangeEvent: function () {
+      this.$router.push({name: 'updateEventRoute'})
     },
     confirmEvent: function (event) {
       this.$http.patch("/admin/event/valid", {}, {
@@ -121,13 +119,13 @@ export default {
         console.log(error)
       })
       alert(this.successMessage = 'Üritus ' + event.eventName + ' on kinnitatud')
+      this.divDisplayConfirmed = false
       location.reload()
     },
-    deleteEvent: function (event) {
-      this.$http.delete("/some/path", {
+    toDeleteEvent: function (event) {
+      this.$http.delete("/event/event", {
         params: {
-          eventId: event.id,
-          eventName: event.eventName
+          eventId: event.eventId,
         }
       })
           .then(response => {
@@ -135,12 +133,13 @@ export default {
           }).catch(error => {
         console.log(error)
       })
+      alert(this.successMessage = 'Üritus kustutatud')
+      location.reload()
     },
     toFutureEvents: function () {
       this.$http.get("admin/event/events")
           .then(response => {
             this.futureEvents = response.data
-            console.log("OLEME SIIN")
             console.log(response.data)
           })
           .catch(error => {
@@ -152,7 +151,6 @@ export default {
       this.$http.get("admin/event/past")
           .then(response => {
             this.pastEvents = response.data
-            console.log("OLEME SIIN")
             console.log(response.data)
           })
           .catch(error => {
@@ -163,6 +161,7 @@ export default {
   mounted() {
     this.toFutureEvents()
     this.toPastEvents()
+    this.successMessage = ''
   }
 }
 </script>
