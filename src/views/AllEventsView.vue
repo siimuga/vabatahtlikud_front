@@ -17,7 +17,7 @@
           <div class="btn-group" style="margin: 5px">
             <select class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="selectedCounty">
-              <option disabled value="">Vali valdkond</option>
+              <option disabled value="">Vali maakond</option>
               <option v-for="option in countyList" :value="option">{{ option.name }}</option>
             </select>
           </div>

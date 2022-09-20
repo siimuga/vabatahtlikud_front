@@ -41,78 +41,62 @@
                 <th>Perekonnanimi</th>
                 <td><input type="text" placeholder="Perekonnanimi" v-model="newUserRequest.lastName"></td>
               </tr>
-              <div class="row" align="right">
-                <div class="col">
-                  <div class="col">
-                    <tr>
+              <tr>
+                <th>Email</th>
+                <td><input type="text" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
+              </tr>
 
-                      <th>Sugu</th>
-                      <br>
-                      <div class="form-check">
-                        <input class="form-check-input"
-                               type="radio"
-                               v-model="newUserRequest.sex"
-                               name="sex"
-                               id="M"
-                               value="M">
-                        <label class="form-check-label" for="M">
-                          Mees
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input"
-                               type="radio"
-                               v-model="newUserRequest.sex"
-                               name="sex"
-                               id="N"
-                               value="N">
-                        <label class="form-check-label" for="N">
-                          Naine
-                        </label>
-                      </div>
-                    </tr>
-                  </div>
+              <tr>
+                <th>Sugu</th>
+                <div class="form-check" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         v-model="newUserRequest.sex"
+                         name="sex"
+                         id="M"
+                         value="M">
+                  <label class="form-check-label" for="M">
+                    Mees
+                  </label>
                 </div>
-
-                <div class="col">
-                  <div class="col">
-                    <tr>
-                      <th>Vanus</th>
-                      <br>
-                      <div class="form-check">
-                        <input class="form-check-input"
-                               type="radio"
-                               v-model="newUserRequest.age"
-                               name="age"
-                               id="adult"
-                               value='adult'>
-                        <label class="form-check-label" for="adult">
-                          Täisealine
-                        </label>
-                      </div>
-                      <div class="form-check">
-                        <input class="form-check-input"
-                               type="radio"
-                               v-model="newUserRequest.age"
-                               name="age"
-                               id="notAdult"
-                               value='notAdult'>
-                        <label class="form-check-label" for="notAdult">
-                          Alla 18a
-                        </label>
-                      </div>
-                    </tr>
-
-                  </div>
+                <div class="form-check" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         v-model="newUserRequest.sex"
+                         name="sex"
+                         id="N"
+                         value="N">
+                  <label class="form-check-label" for="N">
+                    Naine
+                  </label>
                 </div>
+              </tr>
 
-                <div class="col">
-                  <tr>
-                    <th>Email</th>
-                    <td><input type="text" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
-                  </tr>
+              <tr>
+                <th>Vanus</th>
+                <div class="form-check" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         v-model="newUserRequest.age"
+                         name="age"
+                         id="adult"
+                         value='adult'>
+                  <label class="form-check-label" for="adult">
+                    Täisealine
+                  </label>
                 </div>
-              </div>
+                <div class="form-check" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         v-model="newUserRequest.age"
+                         name="age"
+                         id="notAdult"
+                         value='notAdult'>
+                  <label class="form-check-label" for="notAdult">
+                    Alla 18a
+                  </label>
+                </div>
+              </tr>
               </tbody>
             </table>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="registerNewUser">Loo

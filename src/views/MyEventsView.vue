@@ -58,8 +58,8 @@
           </table>
         </div>
 
-        <h3 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="activeEvents.length===0">Eesolevaid üritusi pole</span>
-        </h3>
+        <h5 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="activeEvents.length===0">Eesolevaid üritusi pole</span>
+        </h5>
         <br>
         <h3 align="left" style="margin: 5px"><span style="color: #2c3e50">Möödunud üritused</span></h3>
         <div v-if="pastEvents.length>0">
@@ -84,8 +84,8 @@
             </tbody>
           </table>
         </div>
-        <h3 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="pastEvents.length===0">Möödunuid üritusi pole</span>
-        </h3>
+        <h5 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="pastEvents.length===0">Möödunuid üritusi pole</span>
+        </h5>
       </div>
     </div>
   </div>

@@ -55,11 +55,11 @@
               </tr>
               <tr>
                 <th>Aadress</th>
-                <td><input type="text" placeholder="Aadress"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="Aadress" v-model="eventRequest.locationAddress"></td>
               </tr>
               <tr>
                 <th>Vabatahtlike arv</th>
-                <td><input type="text" placeholder="Arv"> <!--v-model="example"--></td>
+                <td><input type="text" placeholder="Arv" v-model="eventRequest.volunteersRequired"></td>
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
@@ -70,7 +70,7 @@
               </tr>
               <tr>
                 <th>Ürituse veebileht</th>
-                <td><input type="url" placeholder="Veebileht"> <!--v-model="example"--></td>
+                <td><input type="url" placeholder="Veebileht" v-model="eventRequest.link"></td>
               </tr>
               </tbody>
             </table>
@@ -118,7 +118,8 @@ export default {
         locationAddress: '',
         volunteersRequired: '',
         languageId: 0
-      }
+      },
+      errorMessage: ''
     }
   },
 
@@ -155,13 +156,14 @@ export default {
 
       this.$http.post("/event/event", this.eventRequest
       ).then(response => {
-        console.log(response.data)
+        this.errorMessage = ''
+        this.eventRequest.eventId = response.data.eventId
+        this.$router.push({name: 'addEventNextPageRoute'})
       }).catch(error => {
         console.log(error)
       })
-
-      // this.$router.push({name: 'addEventNextPageRoute'})
     },
+
     setDates: function () {
       this.eventRequest.startDate = new Date().toISOString().substring(0, 10)
       this.eventRequest.endDate = new Date().toISOString().substring(0, 10)
