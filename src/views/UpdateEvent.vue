@@ -28,43 +28,56 @@
               <tbody>
               <tr>
                 <th>Ürituse nimi</th>
-                <td><input type="text" placeholder="Ürituse nimi" v-model="eventName"></td>
+                <td><input type="text" v-bind:value="eventPreviousInfo.eventName" v-on:select="eventRequest.eventName">
+                </td>
               </tr>
               <tr>
                 <th>Kuupäev(ad)</th>
                 <div>
                   <td class="input-group input-daterange"></td>
-                  <input type="date" class="form-control-sm" v-model="eventRequest.startDate">
-                  <input type="date" class="form-control-sm" v-model="eventRequest.endDate">
+                  <input type="date" class="form-control-sm" v-bind:value="eventPreviousInfo.startDate"
+                         v-on:input="eventRequest.startDate">
+                  <input type="date" class="form-control-sm" v-bind:value="eventPreviousInfo.endDate"
+                         v-on:input="eventRequest.endDate">
                 </div>
               </tr>
               <tr>
                 <th>Valdkond</th>
-                <select v-model="selectedCategory">
+                <select>
                   <option disabled value="">Vali valdkond</option>
-                  <option v-for="option in categoryList" :value="option">{{ option.name }}</option>
+                  <option v-for="option in categoryList" v-bind:value="eventPreviousInfo.categoryName"
+                          v-on:input="eventRequest.locationCountyName">{{ option.name }}
+                  </option>
                 </select>
               </tr>
               <tr>
                 <th>Maakond</th>
-                <select v-model="selectedCounty">
+                <select>
                   <option disabled value="">Vali maakond</option>
-                  <option v-for="option in countyList" :value="option">{{ option.name }}</option>
+                  <option v-for="option in countyList" v-bind:value="eventPreviousInfo.locationCountyName"
+                          v-on:input="eventRequest.locationCountyName">{{ option.name }}
+                  </option>
                 </select>
               </tr>
               <tr>
                 <th>Aadress</th>
-                <td><input type="text" placeholder="Aadress" v-model="locationAddress"></td>
+                <td><input type="text" placeholder="Aadress" v-bind:value="eventPreviousInfo.locationAddress"
+                           v-on:input="eventRequest.locationAddress">
+                </td>
               </tr>
               <tr>
                 <th>Vabatahtlike arv</th>
-                <td><input type="text" placeholder="Arv" v-model="volunteersRequired"></td>
+                <td><input type="text" placeholder="Arv" v-bind:value="eventPreviousInfo.volunteersRequired"
+                           v-on:input="eventRequest.volunteersRequired">
+                </td>
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
-                <select v-model="selectedLanguage">
+                <select>
                   <option disabled value="">Vali keel</option>
-                  <option v-for="option in languageList" :value="option">{{ option.name }}</option>
+                  <option v-for="option in languageList" v-bind:value="eventPreviousInfo.languageName"
+                          v-on:input="eventRequest.languageName">{{ option.name }}
+                  </option>
                 </select>
               </tr>
               </tbody>
@@ -83,54 +96,33 @@
 
 <script>
 import ImageInput from "@/components/image/ImageInput";
+import AlertSuccess from "@/alerts/AlertSuccess";
 
 export default {
   name: "AddEventView",
-  components: {ImageInput},
+  components: {ImageInput, AlertSuccess},
   data: function () {
     return {
+      eventId: sessionStorage.getItem('eventId'),
       countyList: [],
       categoryList: [],
       languageList: [],
-      selectedCategory: '',
-      selectedCounty: '',
-      selectedLanguage: '',
-      selected: '',
-      pictureExport: {
-        data: String
-      },
       pictureImport: {},
       eventRequest: {
-        userId: 0,
-        categoryId: 0,
+        eventId: this.eventId,
+        categoryName: '',
         eventName: '',
         startDate: '',
         endDate: '',
-        locationCountyId: 0,
+        locationCountyName: '',
         link: '',
         locationAddress: '',
         volunteersRequired: '',
-        languageId: 0
+        languageName: '',
       },
-      event: {
-        eventId: 0,
-        categoryId: 0,
-        eventName: '',
-        startDate: '',
-        endDate: '',
-        locationCountyId: 0,
-        link: '',
-        locationAddress: '',
-        volunteersRequired: '',
-        languageId: 0
-      },
+      eventPreviousInfo: []
     }
   },
-
-  // beforeMount() {
-  //   this.events = JSON.parse(sessionStorage.getItem('events'))
-  // },
-
   methods: {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
@@ -138,39 +130,65 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    setDates: function () {
-      this.eventRequest.startDate = new Date().toISOString().substring(0, 10)
-      this.eventRequest.endDate = new Date().toISOString().substring(0, 10)
-    },
     updateEvent: function (event) {
-      this.$http.patch("/event/event", {}, {
-            params: {
-              eventId: event.eventId,
-              categoryId: event.categoryId,
-              eventName: event.eventName,
-              startDate: event.startDate,
-              endDate: event.endDate,
-              locationCountyId: event.locationCountyId,
-              link: event.link,
-              locationAddress: event.locationAddress,
-              volunteersRequired: event.volunteersRequired,
-              languageId: event.languageId
-            }
-          }
+      this.$http.patch("/event/event", this.eventRequest
       ).then(response => {
         console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
-    }
+      alert(this.successMessage = 'Ürituse põhiandmed on muudetud')
+      this.$router.push({name: 'updateEventNextPageRoute'})
+    },
+    findAllCategories: function () {
+      this.$http.get("/event/category")
+          .then(response => {
+            this.categoryList = response.data
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
+    findAllCounties: function () {
+      this.$http.get("/event/county")
+          .then(response => {
+            this.countyList = response.data
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
+    findAllLanguages: function () {
+      this.$http.get("/event/language")
+          .then(response => {
+            this.languageList = response.data
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
+    findEventInfo: function () {
+      this.$http.get("/event/event/main", {
+            params: {
+              eventId: this.eventId
+            }
+          }
+      )
+          .then(response => {
+            this.eventPreviousInfo = response.data
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
   },
   mounted() {
-    this.setDates()
-    this.findAllCategorys()
-    this.findAllCountys()
+    this.findAllCategories()
+    this.findAllCounties()
     this.findAllLanguages()
-    this.events = JSON.parse(sessionStorage.getItem('events'))
-    this.updateEvent()
+    this.findEventInfo()
+    // this.eventPreviousInfo = []
+    // this.eventRequest = {}
   },
 }
 </script>

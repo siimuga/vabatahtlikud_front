@@ -34,7 +34,7 @@
             <td>{{ event.volunteersRequired }}</td>
             <td>{{ event.volunteersAttended }}</td>
             <td v-if="event.status === 'c'">
-              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
+              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent(event)">
                 Muuda
               </button>
               <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent(event)">
@@ -48,7 +48,7 @@
               <button type="button" style="margin: 5px" class="btn btn-success">
                 Kinnitatud
               </button>
-              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
+              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent(event)">
                 Muuda
               </button>
               <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent(event)">Kustuta
@@ -94,7 +94,6 @@ export default {
   components: {AlertSuccess},
   data: function () {
     return {
-      divDisplayConfirmed: true,
       futureEvents: [],
       pastEvents: []
     }
@@ -104,7 +103,8 @@ export default {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
-    toChangeEvent: function () {
+    toChangeEvent: function (event) {
+      sessionStorage.setItem('eventId', event.eventId)
       this.$router.push({name: 'updateEventRoute'})
     },
     confirmEvent: function (event) {
@@ -119,7 +119,6 @@ export default {
         console.log(error)
       })
       alert(this.successMessage = 'Üritus ' + event.eventName + ' on kinnitatud')
-      this.divDisplayConfirmed = false
       location.reload()
     },
     toDeleteEvent: function (event) {
@@ -162,6 +161,7 @@ export default {
     this.toFutureEvents()
     this.toPastEvents()
     this.successMessage = ''
+    sessionStorage.removeItem('eventId')
   }
 }
 </script>
