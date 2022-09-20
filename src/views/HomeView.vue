@@ -1,7 +1,12 @@
 <template>
   <div>
-    <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
-    <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+    <div v-if="userId<1">
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+    </div>
+    <div v-if="userId>0">
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+    </div>
     <br>
     <br>
     <h1><span style="color: #2c3e50">Tule vabatahtlikuks!</span></h1>
@@ -48,6 +53,7 @@ export default {
 
   data: function () {
     return {
+      userId: Number,
       divToLogInPage: true,
       divToAllEventsPage: true,
       divToVolunteerPage: true,
@@ -59,6 +65,11 @@ export default {
     toLogInPage: function () {
       this.$router.push({name: 'logInRoute'})
     },
+    toLogOut: function () {
+      sessionStorage.removeItem('userId')
+      location.reload()
+    },
+
     toAllEventsPage: function () {
       this.$router.push({name: 'allEventsRoute'})
     },
@@ -68,6 +79,10 @@ export default {
     toOrganizerPage: function () {
       this.$router.push({name: 'organizerRoute'})
     }
+  },
+  mounted() {
+    sessionStorage.removeItem('eventId')
+    this.userId = sessionStorage.getItem('userId')
   }
 }
 

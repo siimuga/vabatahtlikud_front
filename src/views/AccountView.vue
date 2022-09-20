@@ -127,11 +127,13 @@ export default {
       })
     },
     logOut: function () {
-      this.$router.push({name: 'homeRoute'})
+      sessionStorage.removeItem('eventId')
       sessionStorage.removeItem('userId')
+      this.$router.push({name: 'homeRoute'})
     }
   },
   mounted: function () {
+    sessionStorage.removeItem('eventId')
     this.updateUser()
     this.logOut()
   }

@@ -12,7 +12,7 @@
         <div class="col-sm">
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja
           </button>
         </div>
       </div>
@@ -28,7 +28,7 @@
               <tbody>
               <tr>
                 <th>Ürituse nimi</th>
-                <td><input type="text" v-bind:value="eventPreviousInfo.eventName" v-on:select="eventRequest.eventName">
+                <td><input type="text" v-bind:value="eventPreviousInfo.eventName" v-on:input="eventRequest.eventName = $event.target.value" >
                 </td>
               </tr>
               <tr>
@@ -36,47 +36,47 @@
                 <div>
                   <td class="input-group input-daterange"></td>
                   <input type="date" class="form-control-sm" v-bind:value="eventPreviousInfo.startDate"
-                         v-on:input="eventRequest.startDate">
+                         v-on:input="eventRequest.startDate = $event.target.value">
                   <input type="date" class="form-control-sm" v-bind:value="eventPreviousInfo.endDate"
-                         v-on:input="eventRequest.endDate">
+                         v-on:input="eventRequest.endDate = $event.target.value">
                 </div>
               </tr>
               <tr>
                 <th>Valdkond</th>
-                <select>
+                <select v-bind:value="eventPreviousInfo.categoryName"
+                        v-on:input="eventRequest.locationCountyName = $event.target.value">
                   <option disabled value="">Vali valdkond</option>
-                  <option v-for="option in categoryList" v-bind:value="eventPreviousInfo.categoryName"
-                          v-on:input="eventRequest.locationCountyName">{{ option.name }}
+                  <option v-for="option in categoryList" >{{ option.name }}
                   </option>
                 </select>
               </tr>
               <tr>
                 <th>Maakond</th>
-                <select>
+                <select v-bind:value="eventPreviousInfo.locationCountyName"
+                        v-on:input="eventRequest.locationCountyName = $event.target.value">
                   <option disabled value="">Vali maakond</option>
-                  <option v-for="option in countyList" v-bind:value="eventPreviousInfo.locationCountyName"
-                          v-on:input="eventRequest.locationCountyName">{{ option.name }}
+                  <option v-for="option in countyList" >{{ option.name }}
                   </option>
                 </select>
               </tr>
               <tr>
                 <th>Aadress</th>
                 <td><input type="text" placeholder="Aadress" v-bind:value="eventPreviousInfo.locationAddress"
-                           v-on:input="eventRequest.locationAddress">
+                           v-on:input="eventRequest.locationAddress = $event.target.value">
                 </td>
               </tr>
               <tr>
                 <th>Vabatahtlike arv</th>
                 <td><input type="text" placeholder="Arv" v-bind:value="eventPreviousInfo.volunteersRequired"
-                           v-on:input="eventRequest.volunteersRequired">
+                           v-on:input="eventRequest.volunteersRequired = $event.target.value">
                 </td>
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
-                <select>
+                <select v-bind:value="eventPreviousInfo.languageName" v-on:input="eventRequest.languageName = $event.target.value">
                   <option disabled value="">Vali keel</option>
-                  <option v-for="option in languageList" v-bind:value="eventPreviousInfo.languageName"
-                          v-on:input="eventRequest.languageName">{{ option.name }}
+                  <option v-for="option in languageList"
+                          >{{ option.name }}
                   </option>
                 </select>
               </tr>
@@ -109,7 +109,7 @@ export default {
       languageList: [],
       pictureImport: {},
       eventRequest: {
-        eventId: this.eventId,
+        eventId: sessionStorage.getItem('eventId'),
         categoryName: '',
         eventName: '',
         startDate: '',
@@ -127,10 +127,15 @@ export default {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
+    toLogOut: function () {
+      sessionStorage.removeItem('eventId')
+      sessionStorage.removeItem('userId')
+      this.$router.push({name: 'homeRoute'})
+    },
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    updateEvent: function (event) {
+    updateEvent: function () {
       this.$http.patch("/event/event", this.eventRequest
       ).then(response => {
         console.log(response.data)
@@ -187,9 +192,7 @@ export default {
     this.findAllCounties()
     this.findAllLanguages()
     this.findEventInfo()
-    // this.eventPreviousInfo = []
-    // this.eventRequest = {}
-  },
+  }
 }
 </script>
 
