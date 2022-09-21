@@ -62,7 +62,7 @@
 
 <script>
 export default {
-  name: "EventsView",
+  name: "AllEventsView",
   data: function () {
     return {
       divToLogInPage: true,

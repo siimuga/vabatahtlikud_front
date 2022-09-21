@@ -99,15 +99,18 @@
 
 <script>
 import ImageInput from "@/components/image/ImageInput";
+import AlertError from "@/alerts/AlertError";
 
 export default {
-  name: "AddEventView",
-  components: {ImageInput},
+  name: "UpdateEventNextPage",
+  components: {ImageInput, AlertError},
   data: function () {
     return {
       eventId: sessionStorage.getItem('eventId'),
       additionalInfos: [],
       tasks: [],
+      errorMessage: '',
+      errorMessage2: '',
       pictureExport: {
         data: String
       },
@@ -155,11 +158,12 @@ export default {
     toAddInfo: function () {
       this.$http.post("/event/additional/info", this.additionalInfoInfo
       ).then(response => {
+        alert(this.successMessage = 'Lisainfo lisatud')
         console.log(response.data)
       }).catch(error => {
-        console.log(error)
+        this.errorMessage = error.response.data.detail
       })
-      alert(this.successMessage = 'Lisainfo lisatud')
+
       this.findDatesAndTasksByEvent()
       location.reload()
     },
@@ -168,7 +172,7 @@ export default {
       ).then(response => {
         console.log(response.data)
       }).catch(error => {
-        console.log(error)
+        this.errorMessage2 = error.response.data.detail
       })
       alert(this.successMessage = 'Ülesanne lisatud')
       this.findDatesAndTasksByEvent()

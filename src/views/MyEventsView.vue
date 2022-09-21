@@ -97,7 +97,7 @@
 import AlertSuccess from "@/alerts/AlertSuccess";
 
 export default {
-  name: "AccountView",
+  name: "MyEventsView",
   components: {AlertSuccess},
   props: {},
 

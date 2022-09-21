@@ -98,7 +98,7 @@ import ImageInput from "@/components/image/ImageInput";
 import AlertSuccess from "@/alerts/AlertSuccess";
 
 export default {
-  name: "AddEventView",
+  name: "UpdateEvent",
   components: {ImageInput, AlertSuccess},
   data: function () {
     return {
