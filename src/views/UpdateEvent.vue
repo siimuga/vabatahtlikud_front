@@ -143,7 +143,7 @@ export default {
       }).catch(error => {
         console.log(error)
       })
-      alert(this.successMessage = 'Ürituse põhiandmed on muudetud')
+      alert(this.successMessage = 'Ürituse põhiandmed on muudetud!')
       this.$router.push({name: 'updateEventNextPageRoute'})
     },
     findAllCategories: function () {
