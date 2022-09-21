@@ -28,55 +28,49 @@
               <tbody>
               <tr>
                 <th>Ürituse nimi</th>
-                <td><input type="text" v-bind:value="eventPreviousInfo.eventName" v-on:input="eventRequest.eventName = $event.target.value" >
+                <td><input type="text" v-model="eventViewInfo.eventName">
                 </td>
               </tr>
               <tr>
                 <th>Kuupäev(ad)</th>
                 <div>
                   <td class="input-group input-daterange"></td>
-                  <input type="date" class="form-control-sm" v-bind:value="eventPreviousInfo.startDate"
-                         v-on:input="eventRequest.startDate = $event.target.value">
-                  <input type="date" class="form-control-sm" v-bind:value="eventPreviousInfo.endDate"
-                         v-on:input="eventRequest.endDate = $event.target.value">
+                  <input type="date" class="form-control-sm" v-model="eventViewInfo.startDate">
+                  <input type="date" class="form-control-sm" v-model="eventViewInfo.endDate">
                 </div>
               </tr>
               <tr>
                 <th>Valdkond</th>
-                <select v-bind:value="eventPreviousInfo.categoryName"
-                        v-on:input="eventRequest.locationCountyName = $event.target.value">
+                <select v-model="eventViewInfo.categoryName">
                   <option disabled value="">Vali valdkond</option>
-                  <option v-for="option in categoryList" >{{ option.name }}
+                  <option v-for="option in categoryList" :value="option.name">{{ option.name }}
                   </option>
                 </select>
               </tr>
               <tr>
                 <th>Maakond</th>
-                <select v-bind:value="eventPreviousInfo.locationCountyName"
-                        v-on:input="eventRequest.locationCountyName = $event.target.value">
+                <select v-model="eventViewInfo.locationCountyName">
                   <option disabled value="">Vali maakond</option>
-                  <option v-for="option in countyList" >{{ option.name }}
+                  <option v-for="option in countyList" :value="option.name">{{ option.name }}
                   </option>
                 </select>
               </tr>
               <tr>
                 <th>Aadress</th>
-                <td><input type="text" placeholder="Aadress" v-bind:value="eventPreviousInfo.locationAddress"
-                           v-on:input="eventRequest.locationAddress = $event.target.value">
+                <td><input type="text" placeholder="Aadress" v-model="eventViewInfo.locationAddress">
                 </td>
               </tr>
               <tr>
                 <th>Vabatahtlike arv</th>
-                <td><input type="text" placeholder="Arv" v-bind:value="eventPreviousInfo.volunteersRequired"
-                           v-on:input="eventRequest.volunteersRequired = $event.target.value">
+                <td><input type="text" placeholder="Arv" v-model="eventViewInfo.volunteersRequired">
                 </td>
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
-                <select v-bind:value="eventPreviousInfo.languageName" v-on:input="eventRequest.languageName = $event.target.value">
+                <select v-model="eventViewInfo.languageName">
                   <option disabled value="">Vali keel</option>
                   <option v-for="option in languageList"
-                          >{{ option.name }}
+                          :value="option.name">{{ option.name }}
                   </option>
                 </select>
               </tr>
@@ -108,19 +102,21 @@ export default {
       categoryList: [],
       languageList: [],
       pictureImport: {},
-      eventRequest: {
-        eventId: sessionStorage.getItem('eventId'),
-        categoryName: '',
+      eventViewInfo: {
+        eventId: 0,
         eventName: '',
         startDate: '',
         endDate: '',
         locationCountyName: '',
-        link: '',
         locationAddress: '',
-        volunteersRequired: '',
+        volunteersRequired: 0,
+        volunteersAttended: 0,
         languageName: '',
-      },
-      eventPreviousInfo: []
+        link: '',
+        pictureData: '',
+        hasPicture: false,
+        categoryName: ''
+      }
     }
   },
   methods: {
@@ -136,7 +132,7 @@ export default {
       this.$router.push({name: 'accountRoute'})
     },
     updateEvent: function () {
-      this.$http.patch("/event/event", this.eventRequest
+      this.$http.patch("/event/event", this.eventViewInfo
       ).then(response => {
         console.log(response.data)
       }).catch(error => {
@@ -180,7 +176,7 @@ export default {
           }
       )
           .then(response => {
-            this.eventPreviousInfo = response.data
+            this.eventViewInfo = response.data
             console.log(response.data)
           }).catch(error => {
         console.log(error)

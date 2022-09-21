@@ -18,6 +18,7 @@
             <select class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="selectedCounty">
               <option disabled value="">Vali maakond</option>
+              <option :value="0"> kõik</option>
               <option v-for="option in countyList" :value="option">{{ option.name }}</option>
             </select>
           </div>
@@ -39,40 +40,44 @@
     <div class="container-xxl" style="alignment: center">
       <div class="row">
         <div class="col-md-3">
-          <div type="button" class="content" v-on:click="toEventPage"> <a href="#">
-            <div  class="content-overlay"></div> <img type="button" class="content-image" src="../assets/EventView/event_image.jpg">
-            <div  class="content-details fadeIn-bottom">
-              <h3 class="content-title" >Sündmuse nimi</h3>
-              <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
-            </div>
-          </a> </div>
-        </div>
-        <div class="col-md-3">
-          <div type="button" class="content" v-on:click="toEventPage"> <a href="#">
-            <div class="content-overlay"></div> <img class="content-image" src="../assets/EventView/event_image.jpg">
+          <div type="button" class="content" v-on:click="toEventPage"><a href="#">
+            <div class="content-overlay"></div>
+            <img type="button" class="content-image" src="../assets/EventView/event_image.jpg">
             <div class="content-details fadeIn-bottom">
               <h3 class="content-title">Sündmuse nimi</h3>
               <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
             </div>
-          </a> </div>
+          </a></div>
         </div>
         <div class="col-md-3">
-          <div type="button" class="content" v-on:click="toEventPage"> <a href="#">
-            <div class="content-overlay"></div> <img class="content-image" src="../assets/EventView/event_image.jpg">
+          <div type="button" class="content" v-on:click="toEventPage"><a href="#">
+            <div class="content-overlay"></div>
+            <img class="content-image" src="../assets/EventView/event_image.jpg">
             <div class="content-details fadeIn-bottom">
               <h3 class="content-title">Sündmuse nimi</h3>
               <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
             </div>
-          </a> </div>
+          </a></div>
         </div>
         <div class="col-md-3">
-          <div type="button" class="content" v-on:click="toEventPage"> <a href="#">
-            <div class="content-overlay"></div> <img class="content-image" src="../assets/EventView/event_image.jpg">
+          <div type="button" class="content" v-on:click="toEventPage"><a href="#">
+            <div class="content-overlay"></div>
+            <img class="content-image" src="../assets/EventView/event_image.jpg">
             <div class="content-details fadeIn-bottom">
               <h3 class="content-title">Sündmuse nimi</h3>
               <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
             </div>
-          </a> </div>
+          </a></div>
+        </div>
+        <div class="col-md-3">
+          <div type="button" class="content" v-on:click="toEventPage"><a href="#">
+            <div class="content-overlay"></div>
+            <img class="content-image" src="../assets/EventView/event_image.jpg">
+            <div class="content-details fadeIn-bottom">
+              <h3 class="content-title">Sündmuse nimi</h3>
+              <p class="content-text"><i class="fa fa-map-marker"></i>Loe edasi</p>
+            </div>
+          </a></div>
         </div>
       </div>
     </div>
@@ -97,27 +102,27 @@ export default {
   },
 
   methods: {
-    toLogInPage: function () {
-      this.$router.push({name: 'logInRoute'})
-    },
     toHomePage: function () {
       this.$router.push({name: 'homePageRoute'})
     },
-    toEventPage: function () {
+    toLogInPage: function () {
+      this.$router.push({name: 'logInRoute'})
+    },
+    findAllEvents: function () {
       this.$http.get("/event/events")
           .then(response => {
             this.eventsList = response.data
             console.log(response.data)
           })
     },
-    findAllCategorys: function () {
+    findAllCategories: function () {
       this.$http.get("/event/category")
           .then(response => {
             this.categoryList = response.data
             console.log(response.data)
           })
     },
-    findAllCountys: function () {
+    findAllCounties: function () {
       this.$http.get("/event/county")
           .then(response => {
             this.countyList = response.data
@@ -126,8 +131,9 @@ export default {
     },
   },
   mounted() {
-    this.findAllCategorys()
-    this.findAllCountys()
+    this.findAllCategories()
+    this.findAllCounties()
+    this.findAllEvents()
   }
 }
 </script>
