@@ -97,15 +97,19 @@ export default {
     findEvents: function () {
       if (this.selectedCategory === 'kõik' && this.selectedCounty === 'kõik') {
         this.findAllEvents()
+        return
       }
       if (this.selectedCategory !== 'kõik' && this.selectedCounty === 'kõik') {
         this.findByCategory()
+        return
       }
        if (this.selectedCategory === 'kõik' && this.selectedCounty !== 'kõik') {
         this.findByCounty()
+         return
       }
       if (this.selectedCategory !== 'kõik' && this.selectedCounty !== 'kõik'){
         this.findEventsByCategoryAndCounty()
+        return
       }
     },
 

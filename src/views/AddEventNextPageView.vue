@@ -60,7 +60,7 @@
               <tr v-for="task in tasks">
                 <td>{{ task.name }}</td>
                 <td>
-                  <button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="deleteTask">Kustuta
+                  <button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="toDeleteTask(task)">Kustuta
                 </button>
                 </td>
               </tr>
@@ -113,6 +113,7 @@ export default {
       eventId: sessionStorage.getItem('eventId'),
       additionalInfos: [],
       tasks: [],
+      errorMessage: '',
       pictureExport: {
         data: String
       },
@@ -162,7 +163,8 @@ export default {
       ).then(response => {
         console.log(response.data)
       }).catch(error => {
-        console.log(error)
+        this.errorMessage = error.response.data.detail
+        alert(this.errorMessage)
       })
       alert(this.successMessage = 'Lisainfo lisatud')
       this.findDatesAndTasksByEvent()

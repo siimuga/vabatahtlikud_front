@@ -34,11 +34,11 @@
             <td>{{ event.volunteersRequired }}</td>
             <td>{{ event.volunteersAttended }}</td>
             <td v-if="event.status === 'c'">
-              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent(event)">
-                Muuda
-              </button>
               <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent(event)">
                 Kinnita
+              </button>
+              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent(event)">
+                Muuda
               </button>
               <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent(event)">Kustuta
               </button>
