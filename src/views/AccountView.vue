@@ -46,27 +46,28 @@
               </tr>
               <tr>
                 <th>Sugu</th>
-                <div class="form-check" style="text-align: left">
-                  <input class="form-check-input"
-                         type="radio"
 
-                         :name="userInfo.sex"
-                         id="M"
-                         :value="userInfo.sex">
-                  <label class="form-check-label" for="M">
-                    Mees
-                  </label>
-                </div>
-                <div class="form-check" style="text-align: left">
-                  <input class="form-check-input"
-                         type="radio"
-                         :name="userInfo.sex"
-                         id="N"
-                         :value="userInfo.sex">
-                  <label class="form-check-label" for="N">
-                    Naine
-                  </label>
-                </div>
+                                <div class="form-check" style="text-align: left">
+                                  <input class="form-check-input"
+                                         type="radio"
+                                         name="some radio"
+                                         id="M"
+                                         :value="userInfo.sex"
+                                  v-model="userInfo.sex">
+                                  <label class="form-check-label" for="M">
+                                    Mees
+                                  </label>
+                                </div>
+                                <div class="form-check" style="text-align: left">
+                                  <input class="form-check-input"
+                                         type="radio"
+                                         name="some radio"
+                                         id="N"
+                                         :value="userInfo.sex">
+                                  <label class="form-check-label" for="N">
+                                    Naine
+                                  </label>
+                                </div>
               </tr>
               <tr>
                 <th>Meiliaadress</th>
@@ -97,7 +98,7 @@ export default {
     return {
       userId: sessionStorage.getItem('userId'),
       divToHomePage: true,
-      userInfo: {}
+      userInfo: {},
     }
   },
 
