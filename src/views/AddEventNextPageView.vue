@@ -3,16 +3,19 @@
     <div class="container-xxl">
       <div class="row">
         <div class="col-xl">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventPage">Tagasi
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
+          </button>
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toUpdateEventPage">Tagasi
+            põhiandmetesse
           </button>
         </div>
         <div class="col-sm">
-          <h2><span style="color: #2c3e50">Ürituse lisamine 2</span></h2>
+          <h2><span style="color: #2c3e50">Ürituse täiendav info</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Minu konto
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyAccount">Minu konto
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja
           </button>
         </div>
       </div>
@@ -30,23 +33,23 @@
               </tr>
               </thead>
               <tbody>
+              <tr v-for="addinfo in additionalInfos">
+                <td>{{ addinfo.name }}</td>
+                <td>
+                  <button type="button" style="margin: 1px" class="btn btn-danger"
+                          v-on:click="toDeleteAddInfo(addinfo)">
+                    Kustuta
+                  </button>
+                </td>
+              </tr>
               <tr>
-                <td>{{ additionalInfo.name }}</td>
-                <td><input type="text" placeholder="Lisainfo" :v-model="additionalInfo.name"></td>
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="addAdditionalInfo">
+                <td><input type="text" placeholder="Uus lisainfo" :v-model="additionalInfoInfo.name"></td>
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddInfo">
                   Lisa
-                </button>
-                <button type="button" style="margin: 5px" class="btn btn-outline-danger"
-                        v-on:click="deleteAdditionalInfo">
-                  Kustuta
                 </button>
               </tr>
               </tbody>
             </table>
-            <!--            <div v-for="additionalInfo in additionalInfosList">-->
-            <!--              <td>{{additionalInfo.name}}</td>-->
-            <!--              <td><button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="deleteAdditionalInfo"></button> </td>-->
-            <!--            </div>-->
             <table class="table table-hover">
               <thead>
               <tr>
@@ -54,16 +57,21 @@
               </tr>
               </thead>
               <tbody>
-              <tr>
+              <tr v-for="task in tasks">
                 <td>{{ task.name }}</td>
-                <td><input type="text" placeholder="Ülesanne" :v-model="task.name"></td>
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="addTask">Lisa
+                <td>
+                  <button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="deleteTask">Kustuta
                 </button>
-                <button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="deleteTask">Kustuta
+                </td>
+              </tr>
+              <tr>
+                <td><input type="text" placeholder="Uus ülesanne" v-model="taskRequest.name"></td>
+                <button type="button" style="margin: 1px" class="btn btn-outline-dark" v-on:click="toAddTask">Lisa
                 </button>
               </tr>
               </tbody>
             </table>
+            <br>
             <table class="table table-hover">
               <thead>
               <tr>
@@ -97,94 +105,123 @@ import ImageInput from "@/components/image/ImageInput"
 export default {
   name: "AddEventNextPageView",
   components: {ImageInput},
-  props: {
-    eventId: 1
-  },
+  // props: {
+  //   eventId: 1
+  // },
   data: function () {
     return {
-      countyList: [],
-      categoryList: [],
-      languageList: [],
-      selected: '',
+      eventId: sessionStorage.getItem('eventId'),
+      additionalInfos: [],
+      tasks: [],
       pictureExport: {
         data: String
       },
       pictureImport: {},
-      task: {
-        name: ''
-      },
-      additionalInfo: {
+      additionalInfoInfo: {
         name: '',
-        eventId: 0
-        // eventId: sessionStorage.getItem('eventId')
+        eventId: sessionStorage.getItem('eventId'),
       },
+      taskRequest: {
+        name: '',
+        eventId: sessionStorage.getItem('eventId'),
+      }
     }
   },
   methods: {
-    toAddEventPage: function () {
-      this.$router.push({name: 'addEventRoute'})
+    toHomePage: function () {
+      this.$router.push({name: 'homeRoute'})
     },
-    toLogInPage: function () {
-      this.$router.push({name: 'logInRoute'})
+    toLogOut: function () {
+      sessionStorage.removeItem('eventId')
+      sessionStorage.removeItem('userId')
+      this.$router.push({name: 'homeRoute'})
     },
-    addTask: function () {
-      this.$http.post("/event/task", this.event)
+    toUpdateEventPage: function () {
+      this.$router.push({name: 'updateEventRoute'})
+    },
+    toMyAccount: function () {
+      this.$router.push({name: 'accountRoute'})
+    },
+    findDatesAndTasksByEvent: function () {
+      this.$http.get("event/task/addinfo", {
+        params: {
+          eventId: this.eventId
+        }
+      })
           .then(response => {
-            this.task = response.data
+            this.tasks = response.data.tasks
+            this.additionalInfos = response.data.additionalInfos
             console.log(response.data)
           })
-    },
-    addAdditionalInfo: function () {
-      this.$http.post("/event/additional/info", {}, this.event)
-          .then(response => {
-            this.additionalInfo = response.data
-            console.log(response.data)
+          .catch(error => {
+            console.log(error)
           })
     },
-    deleteAdditionalInfo: function () {
-      this.$http.delete("/event/delete/additional/info", this.event)
-          .then(response => {
-            this.deleteAdditionalInfo = response.data
-            console.log(response.data)
-          })
+    toAddInfo: function () {
+      this.$http.post("/event/additional/info", this.additionalInfoInfo
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+      alert(this.successMessage = 'Lisainfo lisatud')
+      this.findDatesAndTasksByEvent()
+      location.reload()
     },
-
-    deleteTask: function () {
-      this.$http.delete("/event/delete/task", this.event)
-          .then(response => {
-            this.deleteTask = response.data
-            console.log(response.data)
-          })
+    toAddTask: function () {
+      this.$http.post("/event/task", this.taskRequest
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
+      alert(this.successMessage = 'Ülesanne lisatud')
+      this.findDatesAndTasksByEvent()
+      location.reload()
     },
-    saveEvent: function () {
-      this.$http.post("/event/event", this.event)
+    toDeleteTask: function (task) {
+      this.$http.delete("/event/delete/task", {
+        params: {
+          taskId: task.taskId,
+        }
+      })
           .then(response => {
-            this.saveEvent = response.data
             console.log(response.data)
-          })
+          }).catch(error => {
+        console.log(error)
+      })
+      alert(this.successMessage = 'Ülesanne kustutatud')
+      location.reload()
     },
-  },
-  toHomePage: function () {
-    this.$router.push({name: 'homeRoute'})
-  },
-  getPictureDataFromFile: function (pictureDataBase64) {
-    this.pictureExport.data = pictureDataBase64
-  },
-  sendImageDataToBackend: function () {
-    this.$http.post("/event/picture", this.pictureExport
-    ).then(response => {
-      alert("Pilt edukalt lisatud!")
-    }).catch(error => {
-      alert("Viga pildi lisamisel!")
-    })
-  },
+    toDeleteAddInfo: function (addinfo) {
+      this.$http.delete("/event/delete/additional/info", {
+        params: {
+          additionalInfoId: addinfo.addInfoId
+        }
+      })
+          .then(response => {
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+      alert(this.successMessage = 'Ülesanne kustutatud')
+      location.reload()
+    },
+    getPictureDataFromFile: function (pictureDataBase64) {
+      this.pictureExport.data = pictureDataBase64
+    },
+    sendImageDataToBackend: function () {
+      this.$http.post("/event/picture", this.pictureExport
+      ).then(response => {
+        alert("Pilt edukalt lisatud!")
+      }).catch(error => {
+        alert("Viga pildi lisamisel!")
+      })
+    }
+    },
 
   mounted() {
-    this.addTask()
-    this.addAdditionalInfo()
-    this.deleteAdditionalInfo()
-    this.deleteTask()
-    this.saveEvent()
+    this.findDatesAndTasksByEvent()
   }
 }
 
