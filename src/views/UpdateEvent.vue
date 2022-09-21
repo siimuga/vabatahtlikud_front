@@ -74,6 +74,11 @@
                   </option>
                 </select>
               </tr>
+              <tr>
+                <th>Veebileht</th>
+                <td><input type="text" placeholder="Veebileht" v-model="eventViewInfo.link">
+                </td>
+              </tr>
               </tbody>
             </table>
           </div>

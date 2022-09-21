@@ -61,7 +61,8 @@
 
 
     <div class="col-sm">
-      <a href="#" class="btn btn-outline-secondary active" role="button" data-bs-toggle="button" aria-pressed="true">Ürituse veebilehele</a>
+      //lingi nupp ei tööta!!!!!!
+      <button class="btn btn-outline-secondary active" role="button" onclick="window.open(eventViewInfo.link)">Mine veebilehele</button>
       <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toRegisterToEventPage">Registreeru vabatahtlikuks
       </button>
     </div>
@@ -85,9 +86,11 @@ export default {
 
   methods: {
     toLogInPage: function () {
+      sessionStorage.removeItem('eventId')
       this.$router.push({name: 'logInRoute'})
     },
     toHomePage: function () {
+      sessionStorage.removeItem('eventId')
       this.$router.push({name: 'homePageRoute'})
     },
     toRegisterToEventPage: function () {
