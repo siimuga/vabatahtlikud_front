@@ -10,10 +10,13 @@
           <h2><span style="color: #2c3e50">Korraldajale</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
-          </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
-          </button>
+          <div v-if="userId<1">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+          </div>
+          <div v-if="userId>0">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+          </div>
         </div>
       </div>
     </div>
@@ -55,7 +58,8 @@ export default {
   name: "OrganizerView",
   data: function () {
     return {
-      divToLogInPage: true
+      divToLogInPage: true,
+      userId: sessionStorage.getItem('userId')
     }
   },
 
@@ -65,6 +69,10 @@ export default {
     },
     toLogInPage: function () {
       this.$router.push({name: 'logInRoute'})
+    },
+    toLogOut: function () {
+      sessionStorage.removeItem('userId')
+      this.$router.push({name: 'homeRoute'})
     },
 
   },

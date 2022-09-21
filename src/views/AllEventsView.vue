@@ -25,17 +25,20 @@
           <h2><span style="color: #2c3e50">Sündmused</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
-          </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
-          </button>
+          <div v-if="userId<1">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+          </div>
+          <div v-if="userId>0">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+          </div>
         </div>
       </div>
     </div>
     <br>
     <br>
 
-    <div class="container-xxl" style="alignment: center" v-if="!divDisplayNoResults">
+    <div class="container-xxl" style="alignment: center">
       <div class="row row-cols-4">
         <div class="col-md-3" v-for="event in eventsList">
           <h3 class="content-title">{{ event.eventName }}</h3>
@@ -67,6 +70,7 @@ export default {
   name: "AllEventsView",
   data: function () {
     return {
+      userId: sessionStorage.getItem('userId'),
       divToLogInPage: true,
       countyList: {},
       categoryList: {},
@@ -89,15 +93,17 @@ export default {
 
   methods: {
     toHomePage: function () {
-      this.$router.push({name: 'homePageRoute'})
-      location.reload()
+      this.$router.push({name: 'homeRoute'})
     },
     toLogInPage: function () {
       this.$router.push({name: 'logInRoute'})
     },
+    toLogOut: function () {
+      sessionStorage.removeItem('userId')
+      this.$router.push({name: 'homeRoute'})
+    },
 
     findEvents: function () {
-      console.log(this.divDisplayNoResults)
       if (this.selectedCategory === 'kõik' && this.selectedCounty === 'kõik') {
         this.findAllEvents()
       } else if (this.selectedCategory !== 'kõik' && this.selectedCounty === 'kõik') {
@@ -183,6 +189,7 @@ export default {
     this.findAllCategories()
     this.findAllCounties()
     this.findAllEvents()
+    this.userId = sessionStorage.getItem('userId')
     sessionStorage.removeItem('eventId')
     this.selectedCounty = 'kõik'
     this.selectedCategory = 'kõik'

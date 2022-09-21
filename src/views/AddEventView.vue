@@ -41,16 +41,16 @@
               </tr>
               <tr>
                 <th>Valdkond</th>
-                <select v-model="selectedCategory">
+                <select v-model="eventRequest.categoryName">
                   <option disabled value="">Vali valdkond</option>
-                  <option v-for="option in categoryList" :value="option">{{ option.name }}</option>
+                  <option v-for="option in categoryList" :value="option.name">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
                 <th>Maakond</th>
-                <select v-model="selectedCounty">
+                <select v-model="eventRequest.locationCountyName">
                   <option disabled value="">Vali maakond</option>
-                  <option v-for="option in countyList" :value="option">{{ option.name }}</option>
+                  <option v-for="option in countyList" :value.="option.name">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
@@ -63,9 +63,9 @@
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
-                <select v-model="selectedLanguage">
+                <select v-model="eventRequest.languageName">
                   <option disabled value="">Vali keel</option>
-                  <option v-for="option in languageList">{{ option.name }}</option>
+                  <option v-for="option in languageList" :value.="option.name">{{ option.name }}</option>
                 </select>
               </tr>
               <tr>
@@ -95,30 +95,25 @@ export default {
 
   data: function () {
     return {
-      eventId: sessionStorage.getItem('eventId'),
+      userId: sessionStorage.getItem('userId'),
       countyList: [],
       categoryList: [],
       languageList: [],
-      selectedCategory: '',
-      selectedCounty: '',
-      selectedLanguage: '',
-      selectedStartDate: '',
-      selectedEndDate: '',
       pictureExport: {
         data: String
       },
       pictureImport: {},
       eventRequest: {
         userId: 0,
-        categoryName: 0,
+        categoryName: '',
         eventName: '',
         startDate: '',
         endDate: '',
-        locationCountyName: 0,
+        locationCountyName: '',
         link: '',
         locationAddress: '',
         volunteersRequired: '',
-        languageName: 0
+        languageName: ''
       },
       errorMessage: ''
     }
@@ -148,13 +143,15 @@ export default {
     },
 
     toHomePage: function () {
+      sessionStorage.removeItem('eventId')
       this.$router.push({name: 'homeRoute'})
     },
     toAccountPage: function () {
+      sessionStorage.removeItem('eventId')
       this.$router.push({name: 'accountRoute'})
     },
     saveEvent: function () {
-
+      this.eventRequest.userId = this.userId
       this.$http.post("/event/event", this.eventRequest
       ).then(response => {
         this.errorMessage = ''

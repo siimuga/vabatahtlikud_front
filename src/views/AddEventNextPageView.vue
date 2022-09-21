@@ -93,9 +93,6 @@
         </div>
       </div>
     </div>
-    <div class="col-sm">
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="saveEvent">Valmis</button>
-    </div>
   </div>
 </template>
 
@@ -105,9 +102,6 @@ import ImageInput from "@/components/image/ImageInput"
 export default {
   name: "AddEventNextPageView",
   components: {ImageInput},
-  // props: {
-  //   eventId: 1
-  // },
   data: function () {
     return {
       eventId: sessionStorage.getItem('eventId'),

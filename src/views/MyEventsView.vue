@@ -10,10 +10,13 @@
           <h2><span style="color: #2c3e50">Minu üritused</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
-          </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
-          </button>
+          <div v-if="userId<1">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+          </div>
+          <div v-if="userId>0">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+          </div>
         </div>
       </div>
     </div>
@@ -114,6 +117,14 @@ export default {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
+
+    toLogInPage: function () {
+      this.$router.push({name: 'logInRoute'})
+    },
+    toLogOut: function () {
+      sessionStorage.removeItem('userId')
+      this.$router.push({name: 'homeRoute'})
+    },
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
@@ -181,6 +192,7 @@ export default {
   mounted() {
     this.findPastEvents()
     this.findAllActiveEvents()
+    this.userId = sessionStorage.getItem('userId')
     this.successMessage = ''
   }
 }

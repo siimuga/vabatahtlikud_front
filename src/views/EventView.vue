@@ -10,10 +10,13 @@
           <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
-          </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
-          </button>
+          <div v-if="userId<1">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+          </div>
+          <div v-if="userId>0">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+          </div>
         </div>
       </div>
     </div>
@@ -75,6 +78,7 @@ export default {
 
   data: function () {
     return {
+      userId: sessionStorage.getItem('userId'),
       eventId: sessionStorage.getItem('eventId'),
       countyList: [],
       categoryList: [],
@@ -90,9 +94,14 @@ export default {
       sessionStorage.removeItem('eventId')
       this.$router.push({name: 'logInRoute'})
     },
+    toLogOut: function () {
+      sessionStorage.removeItem('userId')
+      sessionStorage.removeItem('eventId')
+      this.$router.push({name: 'homeRoute'})
+    },
     toHomePage: function () {
       sessionStorage.removeItem('eventId')
-      this.$router.push({name: 'homePageRoute'})
+      this.$router.push({name: 'homeRoute'})
     },
     toRegisterToEventPage: function () {
       this.$router.push({name: 'registerToEventRoute'})
