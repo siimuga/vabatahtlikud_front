@@ -7,7 +7,7 @@
           </button>
         </div>
         <div class="col-sm">
-          <h2><span style="color: #2c3e50">Sündmus X</span></h2>
+          <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
         </div>
         <div class="col-sm">
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
@@ -28,45 +28,28 @@
             <table class="table">
               <tbody>
               <tr>
-                <th>Ürituse nimi</th>
-                <td><input type="text" placeholder="Ürituse nimi"><!--v-model="example"--></td>
-              </tr>
-              <tr>
                 <th>Aeg</th>
-                <div class="input-group input-daterange">
-                  <input type="date" class="form-control" value="2022-09-13">
-                  <div class="input-group-addon"> -</div>
-                  <input type="date" class="form-control" value="2023-09-13">
-                </div>
+                <td>{{ eventViewInfo.startDate }} - {{ eventViewInfo.endDate }}</td>
               </tr>
               <tr>
                 <th>Valdkond</th>
-                <select v-model="selected">
-                  <option disabled value="">Vali valdkond</option>
-                  <option v-for="option in categoryList" :value="option">{{ option }}</option>
-                </select>
+                <td>{{ eventViewInfo.categoryName }}</td>
               </tr>
               <tr>
                 <th>Maakond</th>
-                <select v-model="selected">
-                  <option disabled value="">Vali maakond</option>
-                  <option v-for="option in countyList" :value="option">{{ option }}</option>
-                </select>
+                <td>{{ eventViewInfo.locationCountyName }}</td>
               </tr>
               <tr>
                 <th>Aadress</th>
-                <td><input type="text" placeholder="Aadress"> <!--v-model="example"--></td>
+                <td>{{ eventViewInfo.locationAddress }}</td>
               </tr>
               <tr>
                 <th>Vabatahtlike arv</th>
-                <td><input type="text" placeholder="Arv"> <!--v-model="example"--></td>
+                <td>{{ eventViewInfo.volunteersRequired }}</td>
               </tr>
               <tr>
                 <th>Suhtluskeel</th>
-                <select v-model="selected">
-                  <option disabled value="">Vali keel</option>
-                  <option v-for="option in languageList" :value="option">{{ option }}</option>
-                </select>
+                <td>{{ eventViewInfo.languageName }}</td>
               </tr>
               </tbody>
             </table>
@@ -91,10 +74,12 @@ export default {
 
   data: function () {
     return {
+      eventId: sessionStorage.getItem('eventId'),
       countyList: [],
       categoryList: [],
       languageList: [],
       selected: '',
+      eventViewInfo: {}
     }
   },
 
@@ -107,8 +92,24 @@ export default {
     },
     toRegisterToEventPage: function () {
       this.$router.push({name: 'registerToEventRoute'})
-    }
+    },
+    findEventInfo: function () {
+      this.$http.get("/event/event/main", {
+            params: {
+              eventId: this.eventId
+            }
+          }
+      ).then(response => {
+            this.eventViewInfo = response.data
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
   },
+  mounted() {
+  this.findEventInfo()
+  }
 
 }
 </script>

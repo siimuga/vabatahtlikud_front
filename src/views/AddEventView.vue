@@ -95,6 +95,7 @@ export default {
 
   data: function () {
     return {
+      eventId: sessionStorage.getItem('eventId'),
       countyList: [],
       categoryList: [],
       languageList: [],
@@ -109,15 +110,15 @@ export default {
       pictureImport: {},
       eventRequest: {
         userId: 0,
-        categoryId: 0,
+        categoryName: 0,
         eventName: '',
         startDate: '',
         endDate: '',
-        locationCountyId: 0,
+        locationCountyName: 0,
         link: '',
         locationAddress: '',
         volunteersRequired: '',
-        languageId: 0
+        languageName: 0
       },
       errorMessage: ''
     }
