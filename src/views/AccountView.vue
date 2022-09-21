@@ -30,27 +30,44 @@
               <tbody>
               <tr>
                 <th>Kasutajanimi</th>
-                <td><input type="text" placeholder="Kasutajanimi"></td>
+                <td><input type="text" placeholder="Kasutajanimi" v-model="userInfo.username"></td>
               </tr>
               <tr>
                 <th>Parool</th>
-                <td><input type="text" placeholder="Parool"><br></td>
+                <td><input type="text" placeholder="Parool" v-model="userInfo.password"><br></td>
               </tr>
               <tr>
                 <th>Eesnimi</th>
-                <td><input type="text" placeholder="Eesnimi"><br></td>
+                <td><input type="text" placeholder="Eesnimi" v-model="userInfo.firstName"><br></td>
               </tr>
               <tr>
                 <th>Perekonnanimi</th>
-                <td><input type="text" placeholder="Perekonnanimi"></td>
+                <td><input type="text" placeholder="Perekonnanimi" v-model="userInfo.lastName"></td>
               </tr>
               <tr>
                 <th>Sugu</th>
-                <td><input type="text" placeholder="M/N"></td>
+                <div class="form-check-inline" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="some radio"
+                         id="M"
+                         value="M"
+                         v-model="userInfo.sex">
+                  Mees
+                </div>
+                <div class="form-check-inline" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="some radio"
+                         id="N"
+                         value="N"
+                         v-model="userInfo.sex">
+                  Naine
+                </div>
               </tr>
               <tr>
                 <th>Meiliaadress</th>
-                <td><input type="text" placeholder="Meiliaadress"></td>
+                <td><input type="text" placeholder="Meiliaadress" v-model="userInfo.email"></td>
               </tr>
               </tbody>
             </table>
@@ -75,15 +92,16 @@ export default {
 
   data: function () {
     return {
-      divToHomePage: true,
-      user: {
+      userId: sessionStorage.getItem('userId'),
+      userInfo: {
+        userId: 0,
         username: '',
         password: '',
         firstName: '',
         lastName: '',
         sex: '',
         email: ''
-      }
+      },
     }
   },
 
@@ -97,45 +115,52 @@ export default {
     toAddEventPage: function () {
       this.$router.push({name: 'addEventRoute'})
     },
-    updateUser: function (user) {
-      this.$http.patch("/user/update", {}, {
-            params: {
-              username: user.username,
-              password: user.password,
-              firstName: user.firstName,
-              lastName: user.lastName,
-              sex: user.sex,
-              email: user.email
-            }
-          }
+    updateUser: function () {
+      this.userInfo.userId = this.userId
+      this.$http.patch("/user/update", this.userInfo
       ).then(response => {
         console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
+      alert(this.successMessage = 'Andmed muudetud!')
+      location.reload()
     },
-    deleteUser: function (user) {
+    deleteUser: function () {
       this.$http.delete("/user/delete", {
         params: {
-          username: user.username,
-          password: user.password,
+          userId: this.userId
         }
       }).then(response => {
         console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
+      alert(this.successMessage = 'Konto kustutatud!')
+      this.$router.push({name: 'homeRoute'})
     },
     logOut: function () {
       sessionStorage.removeItem('eventId')
       sessionStorage.removeItem('userId')
       this.$router.push({name: 'homeRoute'})
+    },
+    findUserInfo: function () {
+      this.$http.get("/user/user", {
+            params: {
+              userId: this.userId
+            }
+          }
+      ).then(response => {
+        this.userInfo = response.data
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   },
-  mounted: function () {
+  mounted() {
     sessionStorage.removeItem('eventId')
-    this.updateUser()
-    this.logOut()
+    this.findUserInfo()
   }
 }
 

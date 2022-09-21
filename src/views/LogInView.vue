@@ -120,7 +120,6 @@ export default {
 
   data: function () {
     return {
-      divToHomePage: true,
       example: 'Mari',
       loginRequest: {
         username: '',

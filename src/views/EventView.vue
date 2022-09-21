@@ -61,9 +61,9 @@
 
 
     <div class="col-sm">
-      //lingi nupp ei tööta!!!!!!
-      <button class="btn btn-outline-secondary active" role="button" onclick="window.open(eventViewInfo.link)">Mine veebilehele</button>
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toRegisterToEventPage">Registreeru vabatahtlikuks
+      <a v-if="divDisplayLink" :href=eventViewInfo.link class="btn btn-success">Mine veebilehele</a>
+      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toRegisterToEventPage">
+        Registreeru vabatahtlikuks
       </button>
     </div>
   </div>
@@ -80,7 +80,8 @@ export default {
       categoryList: [],
       languageList: [],
       selected: '',
-      eventViewInfo: {}
+      eventViewInfo: {},
+      divDisplayLink: false,
     }
   },
 
@@ -96,6 +97,15 @@ export default {
     toRegisterToEventPage: function () {
       this.$router.push({name: 'registerToEventRoute'})
     },
+    displayLink: function () {
+      if (this.eventViewInfo.link == null) {
+        this.divDisplayLink = false
+      } else {
+        this.divDisplayLink = true
+      }
+
+    },
+
     findEventInfo: function () {
       this.$http.get("/event/event/main", {
             params: {
@@ -103,15 +113,17 @@ export default {
             }
           }
       ).then(response => {
-            this.eventViewInfo = response.data
-            console.log(response.data)
-          }).catch(error => {
+        this.eventViewInfo = response.data
+        this.displayLink()
+        console.log(this.eventViewInfo.link)
+        console.log(response.data)
+      }).catch(error => {
         console.log(error)
       })
     },
   },
   mounted() {
-  this.findEventInfo()
+    this.findEventInfo()
   }
 
 }
