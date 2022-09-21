@@ -9,14 +9,14 @@
             <select class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="selectedCategory" v-on:change="findEvents">
               <option value="kõik"> Kõik valdkonnad</option>
-              <option v-for="option in categoryList" :value="option.name">{{ option.name }}</option>
+              <option v-for="option in categoryList" :value="option.categoryId">{{ option.name }}</option>
             </select>
           </div>
           <div class="btn-group" style="margin: 5px">
             <select class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown"
                     aria-expanded="false" v-model="selectedCounty" v-on:change="findEvents">
               <option value="kõik"> Kõik maakonnad</option>
-              <option v-for="option in countyList" :value="option.name">{{ option.name }}</option>
+              <option v-for="option in countyList" :value="option.countyId">{{ option.name }}</option>
             </select>
           </div>
 
@@ -35,7 +35,7 @@
     <br>
     <br>
 
-    <div class="container-xxl" style="alignment: center">
+    <div class="container-xxl" style="alignment: center" v-if="!divDisplayNoResults">
       <div class="row row-cols-4">
         <div class="col-md-3" v-for="event in eventsList">
           <h3 class="content-title">{{ event.eventName }}</h3>
@@ -57,6 +57,8 @@
         </div>
       </div>
     </div>
+      <h3 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="eventsList.length===0">Ühtegi sündmust ei leitud</span>
+      </h3>
   </div>
 </template>
 
@@ -66,8 +68,8 @@ export default {
   data: function () {
     return {
       divToLogInPage: true,
-      countyList: [],
-      categoryList: [],
+      countyList: {},
+      categoryList: {},
       eventsList: [
         {
           seqNr: 0,
@@ -95,22 +97,17 @@ export default {
     },
 
     findEvents: function () {
+      console.log(this.divDisplayNoResults)
       if (this.selectedCategory === 'kõik' && this.selectedCounty === 'kõik') {
         this.findAllEvents()
-        return
-      }
-      if (this.selectedCategory !== 'kõik' && this.selectedCounty === 'kõik') {
+      } else if (this.selectedCategory !== 'kõik' && this.selectedCounty === 'kõik') {
         this.findByCategory()
-        return
-      }
-       if (this.selectedCategory === 'kõik' && this.selectedCounty !== 'kõik') {
+      } else if (this.selectedCategory === 'kõik' && this.selectedCounty !== 'kõik') {
         this.findByCounty()
-         return
-      }
-      if (this.selectedCategory !== 'kõik' && this.selectedCounty !== 'kõik'){
+      } else if (this.selectedCategory !== 'kõik' && this.selectedCounty !== 'kõik') {
         this.findEventsByCategoryAndCounty()
-        return
-      }
+      } else this.divDisplayNoResults = true
+
     },
 
     findAllEvents: function () {
