@@ -46,28 +46,24 @@
               </tr>
               <tr>
                 <th>Sugu</th>
-
-                                <div class="form-check" style="text-align: left">
-                                  <input class="form-check-input"
-                                         type="radio"
-                                         name="some radio"
-                                         id="M"
-                                         :value="userInfo.sex"
-                                  v-model="userInfo.sex">
-                                  <label class="form-check-label" for="M">
-                                    Mees
-                                  </label>
-                                </div>
-                                <div class="form-check" style="text-align: left">
-                                  <input class="form-check-input"
-                                         type="radio"
-                                         name="some radio"
-                                         id="N"
-                                         :value="userInfo.sex">
-                                  <label class="form-check-label" for="N">
-                                    Naine
-                                  </label>
-                                </div>
+                <div class="form-check-inline" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="some radio"
+                         id="M"
+                         value="M"
+                         v-model="userInfo.sex">
+                  Mees
+                </div>
+                <div class="form-check-inline" style="text-align: left">
+                  <input class="form-check-input"
+                         type="radio"
+                         name="some radio"
+                         id="N"
+                         value="N"
+                         v-model="userInfo.sex">
+                  Naine
+                </div>
               </tr>
               <tr>
                 <th>Meiliaadress</th>
@@ -97,8 +93,15 @@ export default {
   data: function () {
     return {
       userId: sessionStorage.getItem('userId'),
-      divToHomePage: true,
-      userInfo: {},
+      userInfo: {
+        userId: 0,
+        username: '',
+        password: '',
+        firstName: '',
+        lastName: '',
+        sex: '',
+        email: ''
+      },
     }
   },
 
@@ -113,6 +116,7 @@ export default {
       this.$router.push({name: 'addEventRoute'})
     },
     updateUser: function () {
+      this.userInfo.userId = this.userId
       this.$http.patch("/user/update", this.userInfo
       ).then(response => {
         console.log(response.data)
@@ -154,7 +158,7 @@ export default {
       })
     }
   },
-  mounted: function () {
+  mounted() {
     sessionStorage.removeItem('eventId')
     this.findUserInfo()
   }

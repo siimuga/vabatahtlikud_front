@@ -103,7 +103,6 @@ export default {
 
   data: function () {
     return {
-      divToHomePage: true,
       userId: sessionStorage.getItem('userId'),
       pastEvents: [],
       activeEvents: [],

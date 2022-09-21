@@ -61,8 +61,7 @@
 
 
     <div class="col-sm">
-      //lingi nupp ei tööta!!!!!!
-      <button class="btn btn-outline-secondary active" role="button" onclick="window.open(eventViewInfo.link)">Mine veebilehele</button>
+      <a :href=eventViewInfo.link class="btn btn-success">Mine veebilehele</a>
       <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toRegisterToEventPage">Registreeru vabatahtlikuks
       </button>
     </div>
