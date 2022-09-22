@@ -19,17 +19,25 @@
               <option v-for="option in countyList" :value="option.countyId">{{ option.name }}</option>
             </select>
           </div>
-
         </div>
         <div class="col-sm">
           <h2><span style="color: #2c3e50">Sündmused</span></h2>
         </div>
         <div class="col-sm">
-          <div v-if="userId<1">
+          <div v-if="divToLogInPage">
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
           </div>
-          <div v-if="userId>0">
+          <div v-if="divDisplayAdmin">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAdminPage">Admin</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+          </div>
+          <div v-if="divDisplayLoggedIn">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu
+              üritused
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
+            </button>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
           </div>
         </div>
@@ -37,7 +45,6 @@
     </div>
     <br>
     <br>
-
     <div class="container-xxl" style="alignment: center">
       <div class="row row-cols-4">
         <div class="col-md-3" v-for="event in eventsList">
@@ -71,7 +78,9 @@ export default {
   data: function () {
     return {
       userId: sessionStorage.getItem('userId'),
-      divToLogInPage: true,
+      divToLogInPage: false,
+      divDisplayAdmin: false,
+      divDisplayLoggedIn: false,
       countyList: {},
       categoryList: {},
       eventsList: [
@@ -102,7 +111,38 @@ export default {
       sessionStorage.removeItem('userId')
       this.$router.push({name: 'homeRoute'})
     },
-
+    hideAll: function () {
+      this.divDisplayLoggedIn = false
+      this.divDisplayAdmin = false
+      this.divToLogInPage = false
+    },
+    displayLogin: function () {
+      if (this.userId === null) {
+        this.hideAll()
+        this.divToLogInPage = true
+      }
+    },
+    displayAdmin: function () {
+      if (this.userId === '1') {
+        this.hideAll()
+        this.divDisplayAdmin = true
+      }
+    },
+    displayLoggedIn: function () {
+      if (this.userId > 1) {
+        this.hideAll()
+        this.divDisplayLoggedIn = true
+      }
+    },
+    toAdminPage: function () {
+      this.$router.push({name: 'adminRoute'})
+    },
+    toMyEventsPage: function () {
+      this.$router.push({name: 'myEventsRoute'})
+    },
+    toAccountPage: function () {
+      this.$router.push({name: 'accountRoute'})
+    },
     findEvents: function () {
       if (this.selectedCategory === 'kõik' && this.selectedCounty === 'kõik') {
         this.findAllEvents()
@@ -193,6 +233,9 @@ export default {
     sessionStorage.removeItem('eventId')
     this.selectedCounty = 'kõik'
     this.selectedCategory = 'kõik'
+    this.displayLogin()
+    this.displayAdmin()
+    this.displayLoggedIn()
   }
 }
 </script>

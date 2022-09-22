@@ -2,25 +2,59 @@
   <div>
     <div class="container-xxl">
       <div class="row">
-        <div class="col-xl">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
-          </button>
-        </div>
-        <div class="col-sm">
-          <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
-        </div>
-
-
-        <div class="col-sm">
-          <div v-if="userId<1">
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
-            </button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
-            </button>
+        <div v-if="divToLogInPage">
+          <div class="container-xxl">
+            <div class="row">
+              <div class="col-xl">
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
+                </button>
+              </div>
+              <div class="col-sm">
+                <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
+              </div>
+              <div class="col-sm">
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+              </div>
+            </div>
           </div>
-          <div v-if="userId>0">
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja
-            </button>
+        </div>
+        <div v-if="divDisplayAdmin">
+          <div class="container-xxl">
+            <div class="row">
+              <div class="col-xl">
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
+                </button>
+              </div>
+              <div class="col-sm">
+                <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
+              </div>
+              <div class="col-sm">
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAdminPage">Admin</button>
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="divDisplayLoggedIn">
+          <div class="container-xxl">
+            <div class="row">
+              <div class="col-xl">
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
+                </button>
+              </div>
+              <div class="col-sm">
+                <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
+              </div>
+              <div class="col-sm">
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu
+                  üritused
+                </button>
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
+                </button>
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -132,6 +166,19 @@ export default {
       }
     },
 
+    toAdminPage: function () {
+      this.$router.push({name: 'adminRoute'})
+    },
+
+    toAccountPage: function () {
+      sessionStorage.removeItem('eventId')
+      this.$router.push({name: 'accountRoute'})
+    },
+    toMyEventsPage: function () {
+      sessionStorage.removeItem('eventId')
+      this.$router.push({name: 'myEventsRoute'})
+    },
+
     toLogInPage: function () {
       sessionStorage.removeItem('eventId')
       this.$router.push({name: 'logInRoute'})
@@ -201,7 +248,9 @@ export default {
   mounted() {
     this.findEventInfo()
     this.checkVolunteer()
+    this.displayLogin()
     this.displayAdmin()
+    this.displayLoggedIn()
   }
 
 }

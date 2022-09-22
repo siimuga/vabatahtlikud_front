@@ -43,58 +43,44 @@
               </tr>
               <tr>
                 <th>Email</th>
-                <td><input type="text" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
+                <td><input type="email" placeholder="Meiliaadress" v-model="newUserRequest.email"></td>
               </tr>
-
               <tr>
                 <th>Sugu</th>
-                <div class="form-check" style="text-align: left">
+                <div class="form-check-inline" style="text-align: left">
                   <input class="form-check-input"
                          type="radio"
                          v-model="newUserRequest.sex"
                          name="sex"
                          id="M"
-                         value="M">
-                  <label class="form-check-label" for="M">
-                    Mees
-                  </label>
+                         value="M"> Mees
                 </div>
-                <div class="form-check" style="text-align: left">
+                <div class="form-check-inline" style="text-align: left">
                   <input class="form-check-input"
                          type="radio"
                          v-model="newUserRequest.sex"
                          name="sex"
                          id="N"
-                         value="N">
-                  <label class="form-check-label" for="N">
-                    Naine
-                  </label>
+                         value="N"> Naine
                 </div>
               </tr>
-
               <tr>
                 <th>Vanus</th>
-                <div class="form-check" style="text-align: left">
+                <div class="form-check-inline" style="text-align: left">
                   <input class="form-check-input"
                          type="radio"
                          v-model="newUserRequest.age"
                          name="age"
                          id="adult"
-                         value='adult'>
-                  <label class="form-check-label" for="adult">
-                    Täisealine
-                  </label>
+                         value='adult'>  Täisealine
                 </div>
-                <div class="form-check" style="text-align: left">
+                <div class="form-check-inline" style="text-align: left">
                   <input class="form-check-input"
                          type="radio"
                          v-model="newUserRequest.age"
                          name="age"
                          id="notAdult"
-                         value='notAdult'>
-                  <label class="form-check-label" for="notAdult">
-                    Alla 18a
-                  </label>
+                         value='notAdult'>  Alla 18a
                 </div>
               </tr>
               </tbody>

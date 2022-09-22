@@ -65,7 +65,7 @@
               </tr>
               <tr>
                 <th>Meiliaadress</th>
-                <td><input type="text" placeholder="Meiliaadress" v-model="userInfo.email"></td>
+                <td><input type="email" placeholder="Meiliaadress" v-model="userInfo.email"></td>
               </tr>
               </tbody>
             </table>
