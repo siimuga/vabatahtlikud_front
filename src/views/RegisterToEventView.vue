@@ -32,7 +32,6 @@
             <td>
               <input type="checkbox" v-model="volunteerEventDateInfo" :value="eventDate.id"> {{ eventDate.date }}
             </td>
-
           </tr>
           </tbody>
         </table>
@@ -91,19 +90,7 @@ export default {
         info: ''
       },
       volunteerEventDateInfo: [],
-      volunteerTaskInfo: [],
-      volunteerEventDateInfoSEND: [
-        {
-          volunteerId: 0,
-          eventDateId: 0
-        }
-      ],
-      volunteerTaskInfoSEND: [
-        {
-          volunteerId: 0,
-          taskId: 0
-        }
-      ],
+      volunteerTaskInfo: []
     }
   },
   methods: {
@@ -122,11 +109,7 @@ export default {
         this.$http.post("/volunteer/register", this.volunteerRequest
         ).then(response => {
           this.volunteerId = response.data.volunteerId
-          console.log('VOLUNTEER ID = ' + this.volunteerId)
-          alert(this.errorMessage = 'Tundub, et töötab')
           this.fillNewForm()
-         /* this.addDatesAtRegister()
-          this.addTasksAtRegister()*/
           console.log(response.data)
         }).catch(error => {
           alert(this.errorMessage = 'Viga sisestamisel')
@@ -134,7 +117,6 @@ export default {
         })
       }
     },
-
 
     fillNewForm: function () {
       let someDtoObject = {
@@ -144,49 +126,10 @@ export default {
       }
       this.$http.post("/volunteer/register/new", someDtoObject
       ).then(response => {
-        alert(this.errorMessage = 'TÖÖTAB')
         console.log(response.data)
       }).catch(error => {
         console.log(error)
       })
-
-    },
-
-    /*fillVolunteerRequest: function () {
-      for (let i = 0; i < this.volunteerEventDateInfo.length; i++) {
-        this.volunteerEventDateInfoSEND.push([this.volunteerId, this.volunteerEventDateInfo[i]])
-      }
-      if (this.volunteerTaskInfo.length !== 0) {
-        for (let j = 0; j < this.volunteerEventDateInfo.length; j++) {
-          this.volunteerTaskInfoSEND.push([this.volunteerId, this.volunteerTaskInfo[j]])
-        }
-      }
-
-      JSON.stringify(this.volunteerEventDateInfoSEND)
-      JSON.stringify(this.volunteerTaskInfoSEND)
-      console.log(this.volunteerEventDateInfoSEND)
-      console.log(this.volunteerTaskInfoSEND)
-      alert(this.errorMessage = 'fafafaf')
-    },*/
-
-    addDatesAtRegister: function () {
-      this.$http.post("volunteer/date", this.volunteerEventDateInfoSEND
-      ).then(response => {
-        console.log(response.data)
-      }).catch(error => {
-        console.log(error)
-      })
-    },
-    addTasksAtRegister: function () {
-
-      if (this.volunteerTaskInfo.length !== 0) {
-        this.$http.post("volunteer/task", this.volunteerTaskInfoSEND
-        ).then(response => {
-          console.log(response.data)
-        }).catch(error => {
-          console.log(error)
-        })
-      }
 
     },
     findDatesAndTasksByEvent: function () {
