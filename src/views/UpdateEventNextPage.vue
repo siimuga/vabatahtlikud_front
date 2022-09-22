@@ -148,7 +148,7 @@ export default {
           .then(response => {
             this.tasks = response.data.tasks
             this.additionalInfos = response.data.additionalInfos
-            console.log(response.data)
+            console.log(this.tasks)
           })
           .catch(error => {
             console.log(error)
