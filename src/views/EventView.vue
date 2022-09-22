@@ -9,13 +9,18 @@
         <div class="col-sm">
           <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
         </div>
+
+
         <div class="col-sm">
           <div v-if="userId<1">
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
+            </button>
           </div>
           <div v-if="userId>0">
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja
+            </button>
           </div>
         </div>
       </div>
@@ -61,12 +66,21 @@
         </div>
       </div>
     </div>
-
-
-    <div class="col-sm">
-      <a v-if="divDisplayLink" :href=eventViewInfo.link class="btn btn-success">Mine veebilehele</a>
-      <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toRegisterToEventPage">
-        Registreeru vabatahtlikuks
+    <div v-if="!divDisplayAdmin">
+      <div class="col-sm">
+        <a v-if="!divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
+        <button v-if="!divDisplayVolunteer" type="button" style="margin: 5px" class="btn btn-outline-dark"
+                v-on:click="toRegisterToEventPage">
+          Registreeru vabatahtlikuks
+        </button>
+        <button v-if="divDisplayVolunteer" type="button" style="margin: 5px" class="btn btn-success">
+          Oled juba registreerunud
+        </button>
+      </div>
+    </div>
+    <div>
+      <button v-if="divDisplayAdmin" type="button" style="margin: 5px" class="btn btn-secondary" v-on:click="toChangeEvent">
+        Muuda ürituse andmeid
       </button>
     </div>
   </div>
@@ -86,10 +100,38 @@ export default {
       selected: '',
       eventViewInfo: {},
       divDisplayLink: false,
+      divDisplayVolunteer: false,
+      divToLogInPage: false,
+      divDisplayAdmin: false,
+      divDisplayLoggedIn: false
     }
   },
 
   methods: {
+    hideAll: function () {
+      this.divDisplayLoggedIn = false
+      this.divDisplayAdmin = false
+      this.divToLogInPage = false
+    },
+    displayLogin: function () {
+      if (this.userId === null) {
+        this.hideAll()
+        this.divToLogInPage = true
+      }
+    },
+    displayAdmin: function () {
+      if (this.userId === '1') {
+        this.hideAll()
+        this.divDisplayAdmin = true
+      }
+    },
+    displayLoggedIn: function () {
+      if (this.userId > 1) {
+        this.hideAll()
+        this.divDisplayLoggedIn = true
+      }
+    },
+
     toLogInPage: function () {
       sessionStorage.removeItem('eventId')
       this.$router.push({name: 'logInRoute'})
@@ -99,6 +141,11 @@ export default {
       sessionStorage.removeItem('eventId')
       this.$router.push({name: 'homeRoute'})
     },
+    toChangeEvent: function () {
+      sessionStorage.setItem('eventId', this.eventId)
+      this.$router.push({name: 'updateEventRoute'})
+    },
+
     toHomePage: function () {
       sessionStorage.removeItem('eventId')
       this.$router.push({name: 'homeRoute'})
@@ -112,8 +159,12 @@ export default {
       } else {
         this.divDisplayLink = true
       }
-
     },
+    // displayAdmin: function () {
+    //   if (this.userId === '1') {
+    //     this.divDisplayAdmin = true
+    //   }
+    // },
 
     findEventInfo: function () {
       this.$http.get("/event/event/main", {
@@ -130,9 +181,27 @@ export default {
         console.log(error)
       })
     },
+
+    checkVolunteer: function () {
+      this.$http.get("/event/event/user/volunteer", {
+        params: {
+          userId: this.userId,
+          eventId: this.eventId
+        }
+      })
+          .then(response => {
+            this.divDisplayVolunteer = response.data
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    }
+
   },
   mounted() {
     this.findEventInfo()
+    this.checkVolunteer()
+    this.displayAdmin()
   }
 
 }

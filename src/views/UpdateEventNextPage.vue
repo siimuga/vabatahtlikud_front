@@ -137,6 +137,7 @@ export default {
       this.$router.push({name: 'updateEventRoute'})
     },
     toMyAccount: function () {
+      sessionStorage.removeItem('eventId')
       this.$router.push({name: 'accountRoute'})
     },
     findDatesAndTasksByEvent: function () {
@@ -157,21 +158,27 @@ export default {
     toAddInfo: function () {
       this.$http.post("/event/additional/info", this.additionalInfoInfo
       ).then(response => {
+        alert(this.successMessage = 'Lisainfo lisatud')
         console.log(response.data)
       }).catch(error => {
         this.errorMessage = error.response.data.detail
         alert(this.errorMessage)
       })
+
+      this.findDatesAndTasksByEvent()
       location.reload()
     },
     toAddTask: function () {
       this.$http.post("/event/task", this.taskRequest
       ).then(response => {
+        alert(this.successMessage = 'Ülesanne lisatud')
         console.log(response.data)
       }).catch(error => {
         this.errorMessage = error.response.data.detail
         alert(this.errorMessage)
       })
+
+      this.findDatesAndTasksByEvent()
       location.reload()
     },
     toDeleteTask: function (task) {

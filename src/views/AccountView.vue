@@ -13,8 +13,6 @@
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu
             üritused
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddEventPage">Lisa üritus
-          </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="logOut">Logi välja
           </button>
         </div>
@@ -34,7 +32,7 @@
               </tr>
               <tr>
                 <th>Parool</th>
-                <td><input type="text" placeholder="Parool" v-model="userInfo.password"><br></td>
+                <td><input type="password" placeholder="Parool" v-model="userInfo.password"><br></td>
               </tr>
               <tr>
                 <th>Eesnimi</th>
@@ -112,9 +110,7 @@ export default {
     toMyEventsPage: function () {
       this.$router.push({name: 'myEventsRoute'})
     },
-    toAddEventPage: function () {
-      this.$router.push({name: 'addEventRoute'})
-    },
+
     updateUser: function () {
       this.userInfo.userId = this.userId
       this.$http.patch("/user/update", this.userInfo

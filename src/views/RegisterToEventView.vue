@@ -115,6 +115,8 @@ export default {
           alert(this.errorMessage = 'Viga sisestamisel')
           console.log(error)
         })
+        alert(this.successMessage = 'Osalemine on kinnitatud')
+        this.$router.push({name: 'homeRoute'})
       }
     },
 

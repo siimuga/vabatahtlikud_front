@@ -43,7 +43,7 @@
                 </td>
               </tr>
               <tr>
-                <td><input type="text" placeholder="Uus lisainfo" :v-model="additionalInfoInfo.name"></td>
+                <td><input type="text" placeholder="Uus lisainfo" v-model="additionalInfoInfo.name"></td>
                 <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAddInfo">
                   Lisa
                 </button>
@@ -60,7 +60,7 @@
               <tr v-for="task in tasks">
                 <td>{{ task.name }}</td>
                 <td>
-                  <button type="button" style="margin: 5px" class="btn btn-outline-danger" v-on:click="toDeleteTask(task)">Kustuta
+                  <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteTask(task)">Kustuta
                 </button>
                 </td>
               </tr>
@@ -98,10 +98,11 @@
 
 <script>
 import ImageInput from "@/components/image/ImageInput"
+import AlertError from "@/alerts/AlertError";
 
 export default {
   name: "AddEventNextPageView",
-  components: {ImageInput},
+  components: {ImageInput, AlertError},
   data: function () {
     return {
       eventId: sessionStorage.getItem('eventId'),
@@ -135,6 +136,7 @@ export default {
       this.$router.push({name: 'updateEventRoute'})
     },
     toMyAccount: function () {
+      sessionStorage.removeItem('eventId')
       this.$router.push({name: 'accountRoute'})
     },
     findDatesAndTasksByEvent: function () {
@@ -155,23 +157,25 @@ export default {
     toAddInfo: function () {
       this.$http.post("/event/additional/info", this.additionalInfoInfo
       ).then(response => {
+        alert(this.successMessage = 'Lisainfo lisatud')
         console.log(response.data)
       }).catch(error => {
         this.errorMessage = error.response.data.detail
         alert(this.errorMessage)
       })
-      alert(this.successMessage = 'Lisainfo lisatud')
+
       this.findDatesAndTasksByEvent()
       location.reload()
     },
     toAddTask: function () {
       this.$http.post("/event/task", this.taskRequest
       ).then(response => {
+        alert(this.successMessage = 'Ülesanne lisatud')
         console.log(response.data)
       }).catch(error => {
-        console.log(error)
+        this.errorMessage = error.response.data.detail
+        alert(this.errorMessage)
       })
-      alert(this.successMessage = 'Ülesanne lisatud')
       this.findDatesAndTasksByEvent()
       location.reload()
     },

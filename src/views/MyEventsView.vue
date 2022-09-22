@@ -15,6 +15,10 @@
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
           </div>
           <div v-if="userId>0">
+            <button type="button" style="margin: 5px" class="btn btn-secondary" v-on:click="toAddEventPage">Lisa üritus
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
+            </button>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
           </div>
         </div>
@@ -50,7 +54,7 @@
                 </button>
               </td>
               <td v-if="event.roleName === 'korraldaja'">
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent">
+                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent(event)">
                   Muuda
                 </button>
                 <button type="button" style="margin: 5px" class="btn btn-danger" v-on:click="toDeleteEvent(event)">Kustuta
@@ -117,6 +121,9 @@ export default {
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
+    toAddEventPage: function () {
+      this.$router.push({name: 'addEventRoute'})
+    },
 
     toLogInPage: function () {
       this.$router.push({name: 'logInRoute'})
@@ -129,6 +136,7 @@ export default {
       this.$router.push({name: 'accountRoute'})
     },
     toChangeEvent: function () {
+      sessionStorage.setItem('eventId', event.eventId)
       this.$router.push({name: 'updateEventRoute'})
     },
     toDeleteEvent: function (event) {
@@ -193,6 +201,7 @@ export default {
     this.findPastEvents()
     this.findAllActiveEvents()
     this.userId = sessionStorage.getItem('userId')
+    sessionStorage.removeItem('eventId')
     this.successMessage = ''
   }
 }

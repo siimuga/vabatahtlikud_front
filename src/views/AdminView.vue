@@ -34,7 +34,7 @@
             <td>{{ event.volunteersRequired }}</td>
             <td>{{ event.volunteersAttended }}</td>
             <td v-if="event.status === 'c'">
-              <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="confirmEvent(event)">
+              <button type="button" style="margin: 5px" class="btn btn-outline-success" v-on:click="confirmEvent(event)">
                 Kinnita
               </button>
               <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent(event)">
@@ -118,7 +118,7 @@ export default {
           }).catch(error => {
         console.log(error)
       })
-      alert(this.successMessage = 'Üritus ' + event.eventName + ' on kinnitatud')
+      alert(this.successMessage = 'Üritus on kinnitatud')
       location.reload()
     },
     toDeleteEvent: function (event) {
