@@ -12,7 +12,7 @@
         <div class="col-sm">
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toEventsPage">Ürituste info
           </button>
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="logOut">Logi välja
           </button>
         </div>
       </div>
@@ -117,6 +117,11 @@ export default {
     toEventPage: function (event) {
       sessionStorage.setItem('eventId', event.eventId)
       this.$router.push({name: 'eventRoute'})
+    },
+    logOut: function () {
+      sessionStorage.removeItem('eventId')
+      sessionStorage.removeItem('userId')
+      this.$router.push({name: 'homeRoute'})
     },
 
     toChangeEvent: function (event) {
