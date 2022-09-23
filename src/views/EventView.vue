@@ -2,59 +2,41 @@
   <div>
     <div class="container-xxl">
       <div class="row">
-        <div v-if="divToLogInPage">
-          <div class="container-xxl">
-            <div class="row">
-              <div class="col-xl">
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
-                </button>
-              </div>
-              <div class="col-sm">
-                <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
-              </div>
-              <div class="col-sm">
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
-              </div>
-            </div>
-          </div>
+        <div class="col-xl">
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
+          </button>
         </div>
-        <div v-if="divDisplayAdmin">
-          <div class="container-xxl">
-            <div class="row">
-              <div class="col-xl">
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
-                </button>
-              </div>
-              <div class="col-sm">
-                <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
-              </div>
-              <div class="col-sm">
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAdminPage">Admin</button>
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
-              </div>
-            </div>
-          </div>
+        <div class="col-sm">
+          <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
         </div>
-        <div v-if="divDisplayLoggedIn">
-          <div class="container-xxl">
-            <div class="row">
-              <div class="col-xl">
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Esilehele
-                </button>
-              </div>
-              <div class="col-sm">
-                <h2><span style="color: #2c3e50">{{ eventViewInfo.eventName }}</span></h2>
-              </div>
-              <div class="col-sm">
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu
-                  üritused
-                </button>
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
-                </button>
-                <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
-              </div>
-            </div>
+        <div class="col-sm">
+          <div v-if="divToLogInPage">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">
+              Sisene
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo
+              konto
+            </button>
+          </div>
+          <div v-if="divDisplayAdmin">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAdminPage">
+              Admin
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi
+              välja
+            </button>
+          </div>
+          <div v-if="divDisplayLoggedIn">
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">
+              Minu
+              üritused
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu
+              konto
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi
+              välja
+            </button>
           </div>
         </div>
       </div>
@@ -62,7 +44,6 @@
     <br>
     <br>
     <div>
-
       <div class="container-xl">
         <div class="row">
           <div class="col-sm">
@@ -86,7 +67,11 @@
                 <td>{{ eventViewInfo.locationAddress }}</td>
               </tr>
               <tr>
-                <th>Vabatahtlike arv</th>
+                <th>Registreerunuid</th>
+                <td>{{ eventViewInfo.volunteersAttended }}</td>
+              </tr>
+              <tr>
+                <th>Vabatahtlikke vajatud</th>
                 <td>{{ eventViewInfo.volunteersRequired }}</td>
               </tr>
               <tr>
@@ -100,7 +85,16 @@
         </div>
       </div>
     </div>
-    <div v-if="!divDisplayAdmin">
+    <div v-if="divToLogInPage">
+      <div class="col-sm">
+        <a v-if="!divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
+        <button type="button" style="margin: 5px" class="btn btn-outline-dark"
+                v-on:click="toLogInPage">
+          Registreeru vabatahtlikuks
+        </button>
+      </div>
+    </div>
+    <div v-if="divDisplayLoggedIn">
       <div class="col-sm">
         <a v-if="!divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
         <button v-if="!divDisplayVolunteer" type="button" style="margin: 5px" class="btn btn-outline-dark"
@@ -112,8 +106,9 @@
         </button>
       </div>
     </div>
-    <div>
-      <button v-if="divDisplayAdmin" type="button" style="margin: 5px" class="btn btn-secondary" v-on:click="toChangeEvent">
+
+    <div v-if="divDisplayAdmin">
+      <button type="button" style="margin: 5px" class="btn btn-secondary" v-on:click="toChangeEvent">
         Muuda ürituse andmeid
       </button>
     </div>
@@ -165,11 +160,9 @@ export default {
         this.divDisplayLoggedIn = true
       }
     },
-
     toAdminPage: function () {
       this.$router.push({name: 'adminRoute'})
     },
-
     toAccountPage: function () {
       sessionStorage.removeItem('eventId')
       this.$router.push({name: 'accountRoute'})
@@ -192,7 +185,6 @@ export default {
       sessionStorage.setItem('eventId', this.eventId)
       this.$router.push({name: 'updateEventRoute'})
     },
-
     toHomePage: function () {
       sessionStorage.removeItem('eventId')
       this.$router.push({name: 'homeRoute'})
@@ -207,12 +199,6 @@ export default {
         this.divDisplayLink = true
       }
     },
-    // displayAdmin: function () {
-    //   if (this.userId === '1') {
-    //     this.divDisplayAdmin = true
-    //   }
-    // },
-
     findEventInfo: function () {
       this.$http.get("/event/event/main", {
             params: {

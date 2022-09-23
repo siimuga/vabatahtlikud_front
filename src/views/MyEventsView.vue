@@ -47,13 +47,18 @@
               <td>{{ event.volunteersRequired }}</td>
               <td>{{ event.volunteersAttended }}</td>
               <td>{{ event.roleName }}</td>
+              <td><button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toEventPage(event)">
+                Info
+              </button></td>
               <td v-if="event.roleName === 'vabatahtlik'">
                 <button type="button" style="margin: 5px" class="btn btn-danger"
                         v-on:click="cancelParticipation(event)">Tühista
                   osalemine
                 </button>
               </td>
+
               <td v-if="event.roleName === 'korraldaja'">
+
                 <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toChangeEvent(event)">
                   Muuda
                 </button>
@@ -123,6 +128,11 @@ export default {
     },
     toAddEventPage: function () {
       this.$router.push({name: 'addEventRoute'})
+    },
+
+    toEventPage: function (event) {
+      sessionStorage.setItem('eventId', event.eventId)
+      this.$router.push({name: 'eventRoute'})
     },
 
     toLogInPage: function () {

@@ -25,12 +25,16 @@
         </div>
         <div class="col-sm">
           <div v-if="divToLogInPage">
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene</button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Sisene
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogInPage">Loo konto
+            </button>
           </div>
           <div v-if="divDisplayAdmin">
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAdminPage">Admin</button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAdminPage">Admin
+            </button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja
+            </button>
           </div>
           <div v-if="divDisplayLoggedIn">
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyEventsPage">Minu
@@ -38,7 +42,8 @@
             </button>
             <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAccountPage">Minu konto
             </button>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja</button>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja
+            </button>
           </div>
         </div>
       </div>
@@ -47,16 +52,24 @@
     <br>
     <div class="container-xxl" style="alignment: center">
       <div class="row row-cols-4">
-        <div class="col-md-3" v-for="event in eventsList">
-          <h3 class="content-title">{{ event.eventName }}</h3>
-          <h3 class="content-title">{{ event.volunteersAttended }}/{{ event.volunteersRequired }}</h3>
+        <div class="col-md-4" v-for="event in eventsList" v-on="displayPicture(event)">
+          <h4 class="content-title">{{ event.eventName }}</h4>
+          <div>
+              <h5 class="content-title">{{ event.volunteersAttended }}/{{ event.volunteersRequired }}</h5>
+          </div>
+          <div class="progress" v-on="calculate(event)">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+                 aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" :style="{'width' : percentage + '%'}">{{percentage}}%
+            </div>
+          </div>
+          <div><br></div>
           <div type="button" class="content" v-on:click="toEventPage(event)"><a href="#">
             <div class="content-overlay">
             </div>
-            <div v-if="event.hasPicture = false">
-              <img type="button" class="content-image" src="../assets/EventView/event_image.jpg">
+            <div v-if="divDisplayPicture">
+              <img type="button" class="content-image" :src="event.pictureData">
             </div>
-            <div v-if="event.hasPicture = true">
+            <div v-if="!divDisplayPicture">
               <img type="button" class="content-image" src="../assets/EventView/event_image.jpg">
             </div>
             <div class="content-details fadeIn-bottom">
@@ -67,8 +80,8 @@
         </div>
       </div>
     </div>
-      <h3 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="eventsList.length===0">Ühtegi sündmust ei leitud</span>
-      </h3>
+    <h3 align="center" style="margin: 5px"><span style="color: #2c3e50" v-if="eventsList.length===0">Ühtegi sündmust ei leitud</span>
+    </h3>
   </div>
 </template>
 
@@ -81,6 +94,9 @@ export default {
       divToLogInPage: false,
       divDisplayAdmin: false,
       divDisplayLoggedIn: false,
+      divDisplayFilled: false,
+      divDisplayPicture: false,
+      percentage: 0,
       countyList: {},
       categoryList: {},
       eventsList: [
@@ -152,15 +168,12 @@ export default {
         this.findByCounty()
       } else if (this.selectedCategory !== 'kõik' && this.selectedCounty !== 'kõik') {
         this.findEventsByCategoryAndCounty()
-      } else this.divDisplayNoResults = true
-
+      }
     },
-
     findAllEvents: function () {
       this.$http.get("/event/events")
           .then(response => {
             this.eventsList = response.data
-            console.log(response.data)
           })
     },
     findAllCategories: function () {
@@ -177,6 +190,17 @@ export default {
             console.log(response.data)
           })
     },
+    displayPicture: function (event) {
+      if (event.pictureData === null) {
+        this.divDisplayPicture = false
+      } else {
+        this.divDisplayPicture = true
+      }
+    },
+    calculate: function (event) {
+      this.percentage = Math.round((event.volunteersAttended / event.volunteersRequired) * 100)
+    },
+
     findByCounty: function () {
       this.$http.get("/event/events/county", {
         params: {
@@ -222,8 +246,8 @@ export default {
     toEventPage: function (event) {
       sessionStorage.setItem('eventId', event.eventId)
       this.$router.push({name: 'eventRoute'})
-    }
 
+    },
   },
   mounted() {
     this.findAllCategories()

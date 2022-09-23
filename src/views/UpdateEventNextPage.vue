@@ -111,7 +111,8 @@ export default {
       tasks: [],
       errorMessage: '',
       pictureExport: {
-        data: String
+        data: String,
+        eventId: sessionStorage.getItem('eventId'),
       },
       pictureImport: {},
       additionalInfoInfo: {

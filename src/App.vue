@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <nav>
-      <router-link to="/">Esileht</router-link> |
+<!--      <router-link to="/">Esileht</router-link> |
       <router-link to="/logIn">Logi sisse/Loo konto</router-link> |
       <router-link to="/account">Minu konto</router-link> |
       <router-link to="/myEvents">Minu üritused</router-link> |
@@ -15,7 +15,7 @@
       <router-link to="/registerToEvent">Registreerumine üritusele</router-link> |
       <router-link to="/organizer">Korraldajale</router-link> |
       <router-link to="/volunteer">Vabatahtlikule</router-link> |
-      <router-link to="/admin">Admin</router-link> |
+      <router-link to="/admin">Admin</router-link> |-->
 
     </nav>
     <router-view/>

@@ -10,6 +10,8 @@
           <h2><span style="color: #2c3e50">Admin</span></h2>
         </div>
         <div class="col-sm">
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toEventsPage">Ürituste info
+          </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toHomePage">Logi välja
           </button>
         </div>
@@ -33,6 +35,9 @@
             <td>{{ event.eventName }}</td>
             <td>{{ event.volunteersRequired }}</td>
             <td>{{ event.volunteersAttended }}</td>
+            <td><button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toEventPage(event)">
+              Info
+            </button></td>
             <td v-if="event.status === 'c'">
               <button type="button" style="margin: 5px" class="btn btn-outline-success" v-on:click="confirmEvent(event)">
                 Kinnita
@@ -101,8 +106,19 @@ export default {
 
   methods: {
     toHomePage: function () {
+      sessionStorage.removeItem('userId')
       this.$router.push({name: 'homeRoute'})
     },
+
+    toEventsPage: function () {
+      this.$router.push({name: 'allEventsRoute'})
+    },
+
+    toEventPage: function (event) {
+      sessionStorage.setItem('eventId', event.eventId)
+      this.$router.push({name: 'eventRoute'})
+    },
+
     toChangeEvent: function (event) {
       sessionStorage.setItem('eventId', event.eventId)
       this.$router.push({name: 'updateEventRoute'})

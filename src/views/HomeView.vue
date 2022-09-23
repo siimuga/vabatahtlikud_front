@@ -6,6 +6,7 @@
           <div class="col-xl">
           </div>
           <div class="col-sm">
+            <h1><span style="color: #2c3e50">Tule vabatahtlikuks!</span></h1>
           </div>
           <div class="col-sm">
             <div v-if="divToLogInPage">
@@ -28,10 +29,6 @@
         </div>
       </div>
     </div>
-    <br>
-    <br>
-    <h1><span style="color: #2c3e50">Tule vabatahtlikuks!</span></h1>
-    <br>
     <br>
     <div class="container-xxl">
       <div class="row">
@@ -63,6 +60,10 @@
           </a> </div>
         </div>
       </div>
+    </div>
+    <br>
+    <div>
+      <iframe src="https://www.google.com/maps/d/u/0/embed?mid=1V5BhqKMBjRlOi6HeIZri1B1YpcZwtok&ehbc=2E312F" width="72.5%" height="600"></iframe>
     </div>
   </div>
 </template>
@@ -136,11 +137,20 @@ export default {
     },
     toOrganizerPage: function () {
       this.$router.push({name: 'organizerRoute'})
+    },
+    updatePastEventsStatuses: function () {
+      this.$http.patch("event/date/check"
+      ).then(response => {
+        console.log(response.data)
+      }).catch(error => {
+        console.log(error)
+      })
     }
   },
   mounted() {
     sessionStorage.removeItem('eventId')
     this.userId = sessionStorage.getItem('userId')
+    this.updatePastEventsStatuses()
     this.displayLogin()
     this.displayAdmin()
     this.displayLoggedIn()
