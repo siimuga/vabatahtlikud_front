@@ -145,7 +145,7 @@ export default {
     toAccountPage: function () {
       this.$router.push({name: 'accountRoute'})
     },
-    toChangeEvent: function () {
+    toChangeEvent: function (event) {
       sessionStorage.setItem('eventId', event.eventId)
       this.$router.push({name: 'updateEventRoute'})
     },
