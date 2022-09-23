@@ -13,7 +13,10 @@
           <h2><span style="color: #2c3e50">Ürituse lisade muutmine</span></h2>
         </div>
         <div class="col-sm">
-          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyAccount">Minu konto
+          <button v-if="divDisplayLoggedIn" type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toMyAccount">Minu konto
+          </button>
+          <button v-if="divDisplayAdmin" type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toAdminPage">
+            Admin
           </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toLogOut">Logi välja
           </button>
@@ -106,10 +109,13 @@ export default {
   components: {ImageInput, AlertError},
   data: function () {
     return {
+      userId: sessionStorage.getItem('userId'),
       eventId: sessionStorage.getItem('eventId'),
       additionalInfos: [],
       tasks: [],
       errorMessage: '',
+      divDisplayAdmin: false,
+      divDisplayLoggedIn: false,
       pictureExport: {
         data: String,
         eventId: sessionStorage.getItem('eventId'),
@@ -126,6 +132,11 @@ export default {
     }
   },
   methods: {
+    toAdminPage: function () {
+      sessionStorage.removeItem('eventId')
+      this.$router.push({name: 'adminRoute'})
+    },
+
     toHomePage: function () {
       this.$router.push({name: 'homeRoute'})
     },
@@ -221,9 +232,23 @@ export default {
         alert("Viga pildi lisamisel!")
       })
     },
+
+    displayAdmin: function () {
+      if (this.userId === '1') {
+        this.divDisplayAdmin = true
+      }
+    },
+    displayLoggedIn: function () {
+      if (this.userId > 1) {
+        this.divDisplayLoggedIn = true
+      }
+    },
   },
   mounted() {
+    this.displayLoggedIn()
+    this.displayAdmin()
     this.findDatesAndTasksByEvent()
+
   }
 }
 </script>
