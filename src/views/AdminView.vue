@@ -106,7 +106,6 @@ export default {
 
   methods: {
     toHomePage: function () {
-      sessionStorage.removeItem('userId')
       this.$router.push({name: 'homeRoute'})
     },
 
