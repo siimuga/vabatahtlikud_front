@@ -97,12 +97,15 @@
     <div v-if="divDisplayLoggedIn">
       <div class="col-sm">
         <a v-if="!divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
-        <button v-if="!divDisplayVolunteer" type="button" style="margin: 5px" class="btn btn-outline-dark"
+        <button v-if="!divDisplayVolunteer && !divDisplayOrganizer" type="button" style="margin: 5px" class="btn btn-outline-dark"
                 v-on:click="toRegisterToEventPage">
           Registreeru vabatahtlikuks
         </button>
         <button v-if="divDisplayVolunteer" type="button" style="margin: 5px" class="btn btn-success">
           Oled juba registreerunud
+        </button>
+        <button v-if="divDisplayOrganizer" type="button" style="margin: 5px" class="btn btn-success">
+          Oled juba korraldaja
         </button>
       </div>
     </div>
@@ -130,6 +133,7 @@ export default {
       eventViewInfo: {},
       divDisplayLink: false,
       divDisplayVolunteer: false,
+      divDisplayOrganizer: false,
       divToLogInPage: false,
       divDisplayAdmin: false,
       divDisplayLoggedIn: false
@@ -228,12 +232,28 @@ export default {
           }).catch(error => {
         console.log(error)
       })
-    }
+    },
+    checkOrganizer: function () {
+      this.$http.get("/event/event/user/organizer", {
+        params: {
+          userId: this.userId,
+          eventId: this.eventId
+        }
+      })
+          .then(response => {
+            this.divDisplayOrganizer = response.data
+            console.log(response.data)
+          }).catch(error => {
+        console.log(error)
+      })
+    },
+
 
   },
   mounted() {
     this.findEventInfo()
     this.checkVolunteer()
+    this.checkOrganizer()
     this.displayLogin()
     this.displayAdmin()
     this.displayLoggedIn()
