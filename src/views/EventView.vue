@@ -87,7 +87,7 @@
     </div>
     <div v-if="divToLogInPage">
       <div class="col-sm">
-        <a v-if="!divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
+        <a v-if="divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
         <button type="button" style="margin: 5px" class="btn btn-outline-dark"
                 v-on:click="toLogInPage">
           Registreeru vabatahtlikuks
@@ -96,7 +96,7 @@
     </div>
     <div v-if="divDisplayLoggedIn">
       <div class="col-sm">
-        <a v-if="!divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
+        <a v-if="divDisplayLink" :href=eventViewInfo.link class="btn btn-secondary">Mine veebilehele</a>
         <button v-if="!divDisplayVolunteer && !divDisplayOrganizer" type="button" style="margin: 5px" class="btn btn-outline-dark"
                 v-on:click="toRegisterToEventPage">
           Registreeru vabatahtlikuks
