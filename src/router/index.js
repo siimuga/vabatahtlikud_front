@@ -14,6 +14,7 @@ import MyEventsView from "@/views/MyEventsView";
 import AddEventNextPageView from "@/views/AddEventNextPageView";
 import UpdateEvent from "@/views/UpdateEvent";
 import UpdateEventNextPage from "@/views/UpdateEventNextPage";
+import AllUsersView from "@/views/AllUsersView";
 
 Vue.use(VueRouter)
 
@@ -87,6 +88,11 @@ const routes = [
     path: '/admin',
     name: 'adminRoute',
     component: AdminView
+  },
+  {
+    path: '/allUsers',
+    name: 'allUsersRoute',
+    component: AllUsersView
   }
 ]
 

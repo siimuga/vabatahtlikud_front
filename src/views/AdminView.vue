@@ -10,6 +10,8 @@
           <h2><span style="color: #2c3e50">Admin</span></h2>
         </div>
         <div class="col-sm">
+          <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toUsersPage">Kõik kasutajad
+          </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="toEventsPage">Ürituste info
           </button>
           <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="logOut">Logi välja
@@ -111,6 +113,10 @@ export default {
 
     toEventsPage: function () {
       this.$router.push({name: 'allEventsRoute'})
+    },
+
+    toUsersPage: function () {
+      this.$router.push({name: 'allUsersRoute'})
     },
 
     toEventPage: function (event) {

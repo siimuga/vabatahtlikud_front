@@ -22,7 +22,7 @@
     <br>
     <div>
       <div class="container-xl">
-        <div class="row">
+        <div class="row" v-on:keyup.enter="updateUser">
           <div class="col-sm">
             <table class="table">
               <tbody>

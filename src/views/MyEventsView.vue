@@ -87,7 +87,7 @@
             </thead>
             <tbody>
             <tr v-for="event in pastEvents">
-              <th scope="row">{{ event.id }}</th>
+              <th scope="row">{{ event.seqNr }}</th>
               <td>{{ event.eventName }}</td>
               <td>{{ event.volunteersRequired }}</td>
               <td>{{ event.volunteersAttended }}</td>

@@ -9,16 +9,17 @@
           <br>
         </div>
         <div class="row row-cols-2">
-          <div class="col">
+          <div class="col" v-on:keyup.enter="logIn">
             <h3><span style="color: #2c3e50">Logi sisse</span></h3>
             <AlertError :errorMessage="errorMessage2"/>
             <input type="text" style="margin: 5px" placeholder="kasutajanimi" v-model="loginRequest.username"><br>
-            <input type="password" style="margin: 5px" placeholder="parool" v-model="loginRequest.password"><br>
-            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="logIn">Logi sisse
+            <input type="password" style="margin: 5px" placeholder="parool" v-model="loginRequest.password" ><br>
+            <button type="button" style="margin: 5px" class="btn btn-outline-dark" v-on:click="logIn" @keyup.enter="logIn">Logi sisse
             </button>
+
             <br>
           </div>
-          <div class="col">
+          <div class="col" v-on:keyup.enter="registerNewUser">
             <h3><span style="color: #2c3e50">Loo uus konto</span></h3>
             <AlertError :errorMessage="errorMessage"/>
             <table class="table table-hover">
@@ -92,6 +93,15 @@
         </div>
       </div>
     </div>
+    <br>
+    <br>
+    <br>
+    <br>
+       <b>Edasi toimemiseks:</b>
+    <br>
+    user: admin <br>
+
+    pw: 123
   </div>
 </template>
 

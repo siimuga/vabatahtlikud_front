@@ -62,7 +62,7 @@
         <tbody>
         <tr>
           <td><textarea placeholder="Kuni 1000 tähemärki" v-model="volunteerRequest.info"></textarea></td>
-          <td><input type="number" v-model="volunteerRequest.volunteersSize" placeholder="1"></td>
+          <td><input type="number" placeholder=1 v-model="volunteerRequest.volunteersSize"  ></td>
         </tr>
         </tbody>
       </table>

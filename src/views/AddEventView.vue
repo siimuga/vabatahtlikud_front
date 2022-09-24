@@ -95,6 +95,7 @@ export default {
 
   data: function () {
     return {
+      eventId:0,
       userId: sessionStorage.getItem('userId'),
       countyList: [],
       categoryList: [],
@@ -155,7 +156,10 @@ export default {
       this.$http.post("/event/event", this.eventRequest
       ).then(response => {
         this.errorMessage = ''
-        this.eventRequest.eventId = response.data.eventId
+        this.eventId = response.data
+        console.log(response.data)
+        sessionStorage.setItem('eventId', this.eventId)
+        alert(this.successMessage = 'Ürituse põhiinfo lisatud')
         this.$router.push({name: 'addEventNextPageRoute'})
       }).catch(error => {
         console.log(error)
@@ -173,7 +177,6 @@ export default {
     this.findAllCategorys()
     this.findAllCountys()
     this.findAllLanguages()
-    this.saveEvent()
   },
 
 }
