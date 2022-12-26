@@ -22,8 +22,7 @@
     <div>
       <div class="container-xl">
         <div class="row">
-          <div class="col-sm">
-            <h3><span style="color: #2c3e50"></span></h3>
+          <div class="col-sm"><h3><span style="color: #2c3e50"></span></h3>
             <table class="table">
               <tbody>
               <tr>
@@ -95,7 +94,7 @@ export default {
 
   data: function () {
     return {
-      eventId:0,
+      eventId: 0,
       userId: sessionStorage.getItem('userId'),
       countyList: [],
       categoryList: [],

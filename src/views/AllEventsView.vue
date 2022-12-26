@@ -57,8 +57,8 @@
           <div>
               <h5 class="content-title">{{ event.volunteersAttended }}/{{ event.volunteersRequired }}</h5>
           </div>
-          <div class="progress" v-on="calculate(event)">
-            <div class="progress-bar progress-bar-striped progress-bar-animated bg-success" role="progressbar"
+          <div class="progress"  style="margin-left:20px; margin-right: 20px"  v-on="calculate(event)">
+            <div class="progress-bar progress-bar-striped progress-bar-animated bg-primary" role="progressbar"
                  aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" :style="{'width' : percentage + '%'}">{{percentage}}%
             </div>
           </div>

@@ -152,8 +152,7 @@ export default {
         this.$http.post("/register/user", this.newUserRequest
         ).then(response => {
           alert(this.successMessage = 'Konto loodud')
-          this.newUserRequest.userId = response.data.userId
-          sessionStorage.setItem('userId', this.loginResponse.userId)
+          sessionStorage.setItem('userId', response.data.userId)
           this.$router.push({name: 'homeRoute'})
         }).catch(error => {
           this.errorMessage = error.response.data.detail
